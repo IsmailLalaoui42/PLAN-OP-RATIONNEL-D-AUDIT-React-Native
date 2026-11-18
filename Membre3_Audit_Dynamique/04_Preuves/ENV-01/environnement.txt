@@ -1,0 +1,15 @@
+# Test      : ENV-01
+# Horodatage: 2026-11-18T15:47:41Z (UTC)
+# Commande  : echo "Hôte: $(uname -s) / Windows 11 / i5-12450H / 16 Go"; echo "JDK: $(java -version 2>&1 | head -1)"; echo "adb: $($ADB version | head -1)"; echo "Émulateur: $(/d/DAST-Lab/android-sdk/emulator/emulator.exe -version 2>/dev/null | head -1)"; echo "Appareil: $($ADB shell getprop ro.build.fingerprint)"; echo "Patch sécurité: $($ADB shell getprop ro.build.version.security_patch)"; echo "Docker: $(docker version --format "{{.Server.Version}}")"; docker ps --format "{{.Names}} {{.Image}} {{.Ports}}"; echo "Serveur: $(curl -sk https://localhost:8443/api/v4/system/ping -o /dev/null -w %{http_code}) / $(docker exec mmlab-server mmctl --local version 2>/dev/null | head -2 | tr "\n" " ")"; echo "mitmproxy: $(/d/DAST-Lab/venv/Scripts/mitmdump.exe --version 2>/dev/null | head -1)"
+# ----
+Hôte: MINGW64_NT-10.0-26300 / Windows 11 / i5-12450H / 16 Go
+JDK: openjdk version "17.0.21" 2026-10-20
+adb: Android Debug Bridge version 1.0.41
+Émulateur: Android emulator version 37.2.13.0 (build_id 16740729) (CL:N/A)
+Appareil: google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys
+Patch sécurité: 2023-09-05
+Docker: 29.8.1
+mmlab-tls caddy:2.10-alpine 127.0.0.1:8443-8446->8443-8446/tcp
+mmlab-server mattermost/mattermost-preview:12.1.0 127.0.0.1:8065->8065/tcp
+Serveur: 200 / mmctl: Version:	12.1.0 
+mitmproxy: Mitmproxy: 11.0.2

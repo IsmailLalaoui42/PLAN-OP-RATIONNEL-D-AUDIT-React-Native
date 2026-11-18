@@ -1,0 +1,8 @@
+# Test      : ENV-01
+# Horodatage: 2026-11-18T15:47:59Z (UTC)
+# Commande  : sha256sum /d/DAST-Lab/apks/Mattermost-v2.46.0-unsigned.apk /d/DAST-Lab/apks/signed/Mattermost-v2.46.0-labsigned.apk /d/DAST-Lab/apks/sbom-mattermost-mobile-v2.46.0.json; echo "Empreinte publiée (GitHub release v2.46.0): 54f37cd0a38ca028f7be9eb55aae88f37c63d2a2f0c492a086c474030cb2f068"
+# ----
+54f37cd0a38ca028f7be9eb55aae88f37c63d2a2f0c492a086c474030cb2f068 */d/DAST-Lab/apks/Mattermost-v2.46.0-unsigned.apk
+27ec0a60e9544272c29515abbfc7c09e6f0a30e805eff1f32bf4a1be83840f9a */d/DAST-Lab/apks/signed/Mattermost-v2.46.0-labsigned.apk
+37e5750d7c20c4abd7bc440d95280412a0f47b3242dc3f72cab5ff75cc0a5da2 */d/DAST-Lab/apks/sbom-mattermost-mobile-v2.46.0.json
+Empreinte publiée (GitHub release v2.46.0): 54f37cd0a38ca028f7be9eb55aae88f37c63d2a2f0c492a086c474030cb2f068

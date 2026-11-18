@@ -1,0 +1,32 @@
+# Banc d'essai DAST — serveur Mattermost isolé (comptes factices uniquement)
+# Membre 3 — Audit dynamique / Risques
+# Lancement : docker compose -p mmlab up -d
+services:
+  mattermost:
+    image: mattermost/mattermost-preview:12.1.0
+    container_name: mmlab-server
+    environment:
+      MM_SERVICESETTINGS_SITEURL: "https://localhost:8443"
+      MM_SERVICESETTINGS_ENABLELOCALMODE: "true"
+      MM_SERVICESETTINGS_ENABLEDEVELOPER: "false"
+      MM_TEAMSETTINGS_ENABLEOPENSERVER: "false"
+      MM_LOGSETTINGS_CONSOLELEVEL: "INFO"
+      MM_SERVICESETTINGS_ENABLESECURITYFIXALERT: "false"
+      MM_LOGSETTINGS_ENABLEDIAGNOSTICS: "false"
+    ports:
+      - "127.0.0.1:8065:8065"   # HTTP en clair : uniquement pour le test DAST-NET-03
+    restart: unless-stopped
+
+  tls:
+    image: caddy:2.10-alpine
+    container_name: mmlab-tls
+    depends_on: [mattermost]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./pki:/pki:ro
+    ports:
+      - "127.0.0.1:8443:8443"   # HTTPS de référence (AC « Lab Audit Root CA »)
+      - "127.0.0.1:8444:8444"   # nom d'hôte incorrect      (DAST-NET-06)
+      - "127.0.0.1:8445:8445"   # certificat expiré         (DAST-NET-07)
+      - "127.0.0.1:8446:8446"   # certificat auto-signé     (DAST-NET-04)
+    restart: unless-stopped

@@ -1,0 +1,6 @@
+# Test      : DAST-NET-05
+# Horodatage: 2026-11-18T15:57:25Z (UTC)
+# Commande  : grep -E 'localhost:8443' /d/DAST-Lab/logs/logcat_session.txt | grep -v -E '16:49' | tail -6
+# ----
+11-18 16:57:03.060  4189  4288 E RNKeychainManager: No entry found for service: https://localhost:8443
+11-18 16:57:03.475  4189  9230 E RNKeychainManager: No entry found for service: https://localhost:8443

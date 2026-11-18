@@ -1,0 +1,10 @@
+# Test      : DAST-STO-07
+# Horodatage: 2026-11-18T16:09:58Z (UTC)
+# Commande  : /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell dumpsys window windows | grep -A3 -E 'Window\{[0-9a-f]+ u0 com.mattermost.rnbeta' | grep -E 'Window\{|fl=|SECURE' | head -6; echo '== recherche FLAG_SECURE :'; /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell dumpsys window windows | grep -A3 -E 'com.mattermost.rnbeta' | grep -c SECURE
+# ----
+  Window #9 Window{dbf8999 u0 com.mattermost.rnbeta/com.mattermost.rnbeta.MainActivity}:
+  imeLayeringTarget in display# 0 Window{dbf8999 u0 com.mattermost.rnbeta/com.mattermost.rnbeta.MainActivity}
+  imeInputTarget in display# 0 Window{dbf8999 u0 com.mattermost.rnbeta/com.mattermost.rnbeta.MainActivity}
+  imeControlTarget in display# 0 Window{dbf8999 u0 com.mattermost.rnbeta/com.mattermost.rnbeta.MainActivity}
+== recherche FLAG_SECURE :
+0

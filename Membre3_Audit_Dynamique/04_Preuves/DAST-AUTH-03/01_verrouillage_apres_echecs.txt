@@ -1,0 +1,18 @@
+# Test      : DAST-AUTH-03
+# Horodatage: 2026-11-18T16:24:22Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I D:/DAST-Lab/logs/auth03.py 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/comptes_test.local.env'; echo '== paramètre serveur :'; docker exec mmlab-server mmctl --local config get ServiceSettings.MaximumLoginAttempts
+# ----
+essai  1 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai  2 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai  3 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai  4 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai  5 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai  6 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai  7 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai  8 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai  9 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai 10 (mauvais mot de passe) -> (401, 'api.user.login.invalid_credentials_email_username')
+essai 11 (mauvais mot de passe) -> (401, 'api.user.check_user_login_attempts.too_many.app_error')
+essai 12 (BON mot de passe)      -> (401, 'api.user.check_user_login_attempts.too_many.app_error')
+== paramètre serveur :
+10

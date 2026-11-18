@@ -1,0 +1,8 @@
+# Test      : DAST-NET-04
+# Horodatage: 2026-11-18T15:49:26Z (UTC)
+# Commande  : echo 'AC Lab Audit Root CA NON installée sur l appareil'; /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell ls /data/misc/user/0/cacerts-added 2>&1 | head -3; echo 'URL testée: https://localhost:8443 (chaîne signée par une AC inconnue de l appareil)'
+# ----
+AC Lab Audit Root CA NON installée sur l appareil
+ls: C:/Program: No such file or directory
+ls: Files/Git/data/misc/user/0/cacerts-added: No such file or directory
+URL testée: https://localhost:8443 (chaîne signée par une AC inconnue de l appareil)

@@ -1,0 +1,8 @@
+# Test      : DAST-PLT-02
+# Horodatage: 2026-11-18T17:01:06Z (UTC)
+# Commande  : echo '== schémas d URL / hôtes déclarés (intent-filter) =='; grep -oE 'android:scheme="[^"]*"' /d/DAST-Lab/re/apktool-out/AndroidManifest.xml | sort -u; echo '-- hôtes :'; grep -oE 'android:host="[^"]*"' /d/DAST-Lab/re/apktool-out/AndroidManifest.xml | sort -u | head
+# ----
+== schémas d URL / hôtes déclarés (intent-filter) ==
+android:scheme="mattermost"
+android:scheme="mmauth"
+-- hôtes :

@@ -1,0 +1,7 @@
+# Test      : DAST-NET-05
+# Horodatage: 2026-11-18T15:56:49Z (UTC)
+# Commande  : openssl x509 -in 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/pki/lab-root-ca.crt' -noout -subject -subject_hash_old -fingerprint -sha256
+# ----
+subject=C=MA, O=IACS Audit Lab (factice), CN=Lab Audit Root CA
+62dccf9a
+sha256 Fingerprint=AB:46:51:8E:0B:E5:4B:C6:F6:93:C3:86:0B:41:F6:8B:9E:A9:8A:27:3F:07:05:AA:BB:B7:57:6B:F4:B5:09:90

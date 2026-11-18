@@ -1,0 +1,8 @@
+# Test      : DAST-NET-04
+# Horodatage: 2026-11-18T15:50:18Z (UTC)
+# Commande  : grep -n -E ' 4189 ' /d/DAST-Lab/logs/logcat_session.txt | grep -E '16:49:5[0-1]' | grep -i -E 'certif|ssl|trust|error|exception|message|reject' | head -25
+# ----
+4164:11-18 16:49:50.751  4189  4252 D TurboLogger: getServerUrlAfterRedirect error https://localhost:8443 {
+4169:11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "rejectInvalidCertificate",
+4175:11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "access$rejectInvalidCertificate",
+4209:11-18 16:49:50.751  4189  4252 D TurboLogger:   "name": "java.lang.Exception",

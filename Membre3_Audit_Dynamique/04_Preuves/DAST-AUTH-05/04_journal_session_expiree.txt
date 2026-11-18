@@ -1,0 +1,8 @@
+# Test      : DAST-AUTH-05
+# Horodatage: 2026-11-18T16:59:50Z (UTC)
+# Commande  : echo 'Extraits logcat de l application après révocation serveur :'; grep -iE 'Invalid or expired session|session_expired' /d/DAST-Lab/logs/logcat_session2.txt | tail -3 | sed -E 's/^(.{23}).*(Invalid or expired session.*)/\1 ... \2/'
+# ----
+Extraits logcat de l application après révocation serveur :
+11-18 17:58:08.902  823 ... Invalid or expired session, please login again.
+11-18 17:58:08.911  823 ... Invalid or expired session, please login again.
+11-18 17:58:08.914  823 ... Invalid or expired session, please login again.

@@ -1,0 +1,7 @@
+# Test      : DAST-AUTH-02
+# Horodatage: 2026-11-18T16:24:09Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I D:/DAST-Lab/logs/timing.py
+# ----
+compte existant (carol.test)     n=8  médiane=   119 ms  min=  107  max=  168
+compte inexistant (fantome.x)    n=8  médiane=    41 ms  min=   13  max=   80
+écart des médianes : +79 ms (rapport 2.9×)

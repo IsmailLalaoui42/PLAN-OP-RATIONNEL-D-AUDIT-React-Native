@@ -1,0 +1,12 @@
+# Test      : DAST-NET-04
+# Horodatage: 2026-11-18T15:50:12Z (UTC)
+# Commande  : grep -i -E 'SSLHandshake|CertPathValidator|Trust anchor|certificate' /d/DAST-Lab/logs/logcat_session.txt | tail -8
+# ----
+11-18 16:49:29.873   942  1128 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 16:49:33.504   942  1128 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 16:49:36.775   942  1128 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 16:49:37.931   942  1128 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "rejectInvalidCertificate",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "access$rejectInvalidCertificate",
+11-18 16:49:55.123   942  6433 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 16:50:01.529   942  6433 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58

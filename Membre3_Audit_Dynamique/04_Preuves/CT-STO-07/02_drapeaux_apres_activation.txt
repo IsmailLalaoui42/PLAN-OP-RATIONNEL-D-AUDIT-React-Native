@@ -1,0 +1,8 @@
+# Test      : CT-STO-07
+# Horodatage: 2026-11-18T16:11:20Z (UTC)
+# Commande  : /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell dumpsys window windows | grep -A12 'Window{327eba5' | grep -E 'fl=' | head -2; echo '== FLAG_SECURE présent :'; /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell dumpsys window windows | grep -A12 'Window{327eba5' | grep -c 'SECURE'
+# ----
+      fl=LAYOUT_IN_SCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS
+      pfl=NO_MOVE_ANIMATION FORCE_DRAW_STATUS_BAR_BACKGROUND USE_BLAST APPEARANCE_CONTROLLED FIT_INSETS_CONTROLLED
+== FLAG_SECURE présent :
+0

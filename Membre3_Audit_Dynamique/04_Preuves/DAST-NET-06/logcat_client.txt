@@ -1,0 +1,11 @@
+# Test      : DAST-NET-06
+# Horodatage: 2026-11-18T15:58:03Z (UTC)
+# Commande  : grep -n -A40 'getServerUrlAfterRedirect error https://localhost:8444' /d/DAST-Lab/logs/logcat_session.txt | grep -E 'error https|methodName|"name"|message' | head -8
+# ----
+43358:11-18 16:57:51.792  4189  4252 D TurboLogger: getServerUrlAfterRedirect error https://localhost:8444 {
+43363-11-18 16:57:51.792  4189  4252 D TurboLogger:       "methodName": "rejectInvalidCertificate",
+43369-11-18 16:57:51.792  4189  4252 D TurboLogger:       "methodName": "access$rejectInvalidCertificate",
+43375-11-18 16:57:51.792  4189  4252 D TurboLogger:       "methodName": "onFailure",
+43381-11-18 16:57:51.792  4189  4252 D TurboLogger:       "methodName": "run",
+43387-11-18 16:57:51.792  4189  4252 D TurboLogger:       "methodName": "runWorker",
+43393-11-18 16:57:51.792  4189  4252 D TurboLogger:       "methodName": "run",

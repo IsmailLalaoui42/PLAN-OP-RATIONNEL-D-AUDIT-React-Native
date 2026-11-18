@@ -1,0 +1,21 @@
+# Test      : DAST-STO-02
+# Horodatage: 2026-11-18T16:09:34Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I D:/DAST-Lab/logs/scan_log.py D:/DAST-Lab/logs/logcat_session.txt 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/comptes_test.local.env' CANARI-M3-a1612af3 D:/DAST-Lab/flows/net03_cleartext.mitm D:/DAST-Lab/flows/ref_https.mitm
+# ----
+logcat : 58112 lignes, dont 479 émises par l'application (balises TurboLogger/ReactNativeJS/RNKeychain…)
+
+jeton(s) de session   : 0 ligne(s)
+
+mot de passe alice    : 0 ligne(s)
+
+canari (contenu)      : 0 ligne(s)
+
+identifiant alice     : 0 ligne(s)
+
+URL serveur           : 10 ligne(s)
+   11-18 16:59:51.328  4189  4288 E RNKeychainManager: No entry found for service: <URL SERVEUR MASQUÉ>
+   11-18 16:59:51.648  4189 10230 E RNKeychainManager: No entry found for service: <URL SERVEUR MASQUÉ>
+   11-18 17:00:52.169  4189  4252 D TurboLogger: flushAuditQueue: nothing queued for <URL SERVEUR MASQUÉ>
+   11-18 17:00:52.240  4189  4252 D TurboLogger: autoCacheCleanup: cleanupDays <= 0 for <URL SERVEUR MASQUÉ>
+
+niveaux des lignes applicatives : {'E': 19, 'D': 453, 'I': 7}

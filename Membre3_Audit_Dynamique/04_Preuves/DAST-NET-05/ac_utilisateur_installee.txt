@@ -1,0 +1,10 @@
+# Test      : DAST-NET-05
+# Horodatage: 2026-11-18T15:56:42Z (UTC)
+# Commande  : /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell su 0 ls -la /data/misc/user/0/cacerts-added/ 2>&1; echo '--- empreinte attendue (subject_hash_old) :'; openssl x509 -in '/d/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/pki/lab-root-ca.crt' -noout -subject -subject_hash_old -fingerprint -sha256
+# ----
+total 12
+drwxr-xr-x 2 system system    4096 2026-11-18 16:56 .
+drwxr-x--- 3 system everybody 4096 2026-11-18 16:56 ..
+-rw-r--r-- 1 system system     483 2026-11-18 16:56 62dccf9a.0
+--- empreinte attendue (subject_hash_old) :
+Could not open file or uri for loading certificate from /d/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/pki/lab-root-ca.crt: No such file or directory

@@ -1,0 +1,55 @@
+# Test      : DAST-NET-04
+# Horodatage: 2026-11-18T15:50:35Z (UTC)
+# Commande  : sed -n '4164,4214p' /d/DAST-Lab/logs/logcat_session.txt
+# ----
+11-18 16:49:50.751  4189  4252 D TurboLogger: getServerUrlAfterRedirect error https://localhost:8443 {
+11-18 16:49:50.751  4189  4252 D TurboLogger:   "nativeStackAndroid": [
+11-18 16:49:50.751  4189  4252 D TurboLogger:     {
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "lineNumber": 865,
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "file": "NetworkClient.kt",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "rejectInvalidCertificate",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "class": "com.mattermost.networkclient.NetworkClient"
+11-18 16:49:50.751  4189  4252 D TurboLogger:     },
+11-18 16:49:50.751  4189  4252 D TurboLogger:     {
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "lineNumber": 49,
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "file": "NetworkClient.kt",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "access$rejectInvalidCertificate",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "class": "com.mattermost.networkclient.NetworkClient"
+11-18 16:49:50.751  4189  4252 D TurboLogger:     },
+11-18 16:49:50.751  4189  4252 D TurboLogger:     {
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "lineNumber": 254,
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "file": "NetworkClient.kt",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "onFailure",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "class": "com.mattermost.networkclient.NetworkClient$request$1"
+11-18 16:49:50.751  4189  4252 D TurboLogger:     },
+11-18 16:49:50.751  4189  4252 D TurboLogger:     {
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "lineNumber": 582,
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "file": "RealCall.kt",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "run",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "class": "okhttp3.internal.connection.RealCall$AsyncCall"
+11-18 16:49:50.751  4189  4252 D TurboLogger:     },
+11-18 16:49:50.751  4189  4252 D TurboLogger:     {
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "lineNumber": 1145,
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "file": "ThreadPoolExecutor.java",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "runWorker",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "class": "java.util.concurrent.ThreadPoolExecutor"
+11-18 16:49:50.751  4189  4252 D TurboLogger:     },
+11-18 16:49:50.751  4189  4252 D TurboLogger:     {
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "lineNumber": 644,
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "file": "ThreadPoolExecutor.java",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "run",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "class": "java.util.concurrent.ThreadPoolExecutor$Worker"
+11-18 16:49:50.751  4189  4252 D TurboLogger:     },
+11-18 16:49:50.751  4189  4252 D TurboLogger:     {
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "lineNumber": 1012,
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "file": "Thread.java",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "methodName": "run",
+11-18 16:49:50.751  4189  4252 D TurboLogger:       "class": "java.lang.Thread"
+11-18 16:49:50.751  4189  4252 D TurboLogger:     }
+11-18 16:49:50.751  4189  4252 D TurboLogger:   ],
+11-18 16:49:50.751  4189  4252 D TurboLogger:   "name": "java.lang.Exception",
+11-18 16:49:50.751  4189  4252 D TurboLogger:   "userInfo": null,
+11-18 16:49:50.751  4189  4252 D TurboLogger:   "code": "EUNSPECIFIED",
+11-18 16:49:50.751  4189  4252 D TurboLogger:   "jsEngine": "hermes"
+11-18 16:49:50.751  4189  4252 D TurboLogger: }
+11-18 16:49:50.775  4189  6368 D TrafficStats: tagSocket(146) with statsTag=0xffffffff, statsUid=-1

@@ -1,0 +1,111 @@
+{
+  "echelle": {
+    "vraisemblance": {"1": "Rare", "2": "Peu probable", "3": "Possible", "4": "Probable", "5": "Quasi certain"},
+    "impact": {"1": "Négligeable", "2": "Mineur", "3": "Modéré", "4": "Majeur", "5": "Critique"},
+    "niveaux": [
+      {"nom": "Faible", "min": 1, "max": 4},
+      {"nom": "Modéré", "min": 5, "max": 9},
+      {"nom": "Élevé", "min": 10, "max": 16},
+      {"nom": "Critique", "min": 17, "max": 25}
+    ]
+  },
+  "risques": [
+    {
+      "id": "R1",
+      "titre": "Interception du trafic (AC utilisateur acceptée, pas d'épinglage, HTTP accepté)",
+      "constats": ["DAST-NET-05", "DAST-NET-03"],
+      "scenario": "Sur un réseau hostile ou après installation d'une AC malveillante (profil d'entreprise, logiciel espion), un intercepteur déchiffre le trafic TLS de l'application et capture identifiants, jeton de session et messages. Le cas HTTP explicite transmet même ces données sans aucun chiffrement.",
+      "vraisemblance": 3,
+      "impact": 5,
+      "actif": "Identifiants, jeton de session, messages en transit",
+      "iso": "A.13.2.1, A.14.1.3, A.10.1.1"
+    },
+    {
+      "id": "R2",
+      "titre": "Session mobile de très longue durée, sans expiration par inactivité ni second facteur",
+      "constats": ["DAST-AUTH-06"],
+      "scenario": "Un jeton de session capturé (voir R1) ou extrait d'un appareil reste exploitable jusqu'à 180 jours. L'absence d'expiration par inactivité et de MFA prolonge d'autant la fenêtre d'usurpation.",
+      "vraisemblance": 3,
+      "impact": 4,
+      "actif": "Jeton de session, compte utilisateur",
+      "iso": "A.9.4.2, A.9.4.3"
+    },
+    {
+      "id": "R3",
+      "titre": "Contenu des messages et jeton stockés en clair dans le bac à sable",
+      "constats": ["DAST-STO-01"],
+      "scenario": "Sur un appareil rooté, perdu ou compromis, les messages (base SQLite -wal) et le jeton de session (cookie WebView non chiffré) sont lisibles. L'isolation Android et le chiffrement de l'appareil restent la seule barrière ; il n'y a pas de chiffrement applicatif au repos.",
+      "vraisemblance": 2,
+      "impact": 4,
+      "actif": "Messages locaux, jeton de session",
+      "iso": "A.10.1.1, A.8.2.3"
+    },
+    {
+      "id": "R4",
+      "titre": "Contenu sensible exposé par les captures d'écran et l'aperçu des applications récentes",
+      "constats": ["DAST-STO-07", "CT-STO-07"],
+      "scenario": "Sans FLAG_SECURE, une capture d'écran (par l'utilisateur, une autre application ou un logiciel espion) et la vignette des applications récentes exposent le contenu des canaux. Le correctif natif existe mais exige une licence Enterprise, absente ici.",
+      "vraisemblance": 3,
+      "impact": 3,
+      "actif": "Contenu affiché des conversations",
+      "iso": "A.11.2.9, A.8.2.3"
+    },
+    {
+      "id": "R5",
+      "titre": "Écarts mineurs : énumération par le temps de réponse, demandes d'autorisation répétées",
+      "constats": ["DAST-AUTH-02", "DAST-PLT-03"],
+      "scenario": "Un écart de temps de réponse faible pourrait, à grande échelle, aider à distinguer des comptes existants ; les demandes répétées d'autorisation nuisent à la minimisation. Impact limité, exploitation peu fiable.",
+      "vraisemblance": 2,
+      "impact": 2,
+      "actif": "Liste des comptes, hygiène des autorisations",
+      "iso": "A.9.4.2, A.9.4.1"
+    }
+  ],
+  "plan_correctif": [
+    {
+      "ref": "R1",
+      "mesure": "Désactiver l'acceptation du trafic en clair (cleartextTrafficPermitted=false, retirer src=\"user\") et mettre en place l'épinglage de certificat côté application pour les déploiements sensibles. À défaut de modifier l'application, déployer le serveur derrière une AC publique reconnue et interdire HTTP au niveau réseau.",
+      "responsable": "Éditeur de l'application / Administrateur serveur",
+      "priorite": "Haute",
+      "effort": "Moyen",
+      "contre_test": "Rejouer DAST-NET-03 (http:// doit être refusé) et DAST-NET-05 (connexion refusée malgré l'AC utilisateur) ; vérifier que mitmproxy ne peut plus déchiffrer le trafic.",
+      "etat": "Ouvert"
+    },
+    {
+      "ref": "R2",
+      "mesure": "Réduire SessionLengthMobileInHours à une valeur raisonnable (ex. 720 h), activer ExtendSessionLengthWithActivity, appliquer une expiration par inactivité, et activer/imposer la MFA (EnableMultifactorAuthentication).",
+      "responsable": "Administrateur serveur",
+      "priorite": "Haute",
+      "effort": "Faible",
+      "contre_test": "Rejouer DAST-AUTH-06 : vérifier la nouvelle durée annoncée et l'expiration d'un jeton inactif ; vérifier la demande de second facteur à la connexion.",
+      "etat": "Ouvert"
+    },
+    {
+      "ref": "R3",
+      "mesure": "Activer un chiffrement applicatif des bases locales (ex. SQLCipher) et stocker le jeton dans le Keystore matériel plutôt que dans un cookie WebView. Imposer un verrouillage d'écran à l'organisation.",
+      "responsable": "Éditeur de l'application",
+      "priorite": "Moyenne",
+      "effort": "Élevé",
+      "contre_test": "Rejouer DAST-STO-01 : les bases et le jeton ne doivent plus être lisibles en clair dans une copie du bac à sable.",
+      "etat": "Ouvert"
+    },
+    {
+      "ref": "R4",
+      "mesure": "Positionner FLAG_SECURE sur les écrans sensibles (ou acquérir la licence Enterprise activant MobilePreventScreenCapture). Sensibiliser les utilisateurs au risque de capture.",
+      "responsable": "Éditeur de l'application / Direction",
+      "priorite": "Moyenne",
+      "effort": "Faible",
+      "contre_test": "Rejouer DAST-STO-07 : la capture doit être bloquée et l'aperçu des applications récentes masqué.",
+      "etat": "Ouvert"
+    },
+    {
+      "ref": "R5",
+      "mesure": "Uniformiser le temps de réponse d'authentification (traitement à durée constante) ; demander l'autorisation de notifications une seule fois, avec justification contextuelle.",
+      "responsable": "Éditeur de l'application",
+      "priorite": "Basse",
+      "effort": "Faible",
+      "contre_test": "Rejouer DAST-AUTH-02 (écart de temps non significatif) et DAST-PLT-03 (pas de nouvelle demande après refus).",
+      "etat": "Ouvert"
+    }
+  ]
+}

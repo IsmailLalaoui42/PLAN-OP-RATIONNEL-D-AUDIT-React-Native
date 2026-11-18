@@ -1,0 +1,84 @@
+# Test      : DAST-NET-03
+# Horodatage: 2026-11-18T16:01:21Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/scripts/export_flows.py' D:/DAST-Lab/flows/net03_cleartext.mitm /api/v4/users/login /api/v4/users/me 2>&1 | head -80
+# ----
+=== POST http://127.0.0.1:8065/api/v4/users/login
+  horodatage requête : 1795017652.344 (epoch)  version : HTTP/1.1
+  en-têtes requête :
+    X-Requested-With: XMLHttpRequest
+    User-Agent: Mattermost Mobile/2.46.0+835 (Android; 14; sdk_gphone64_x86_64)
+    Accept: application/json
+    Cache-Control: no-store
+    Accept-Encoding: br, gzip
+    Content-Type: application/json; charset=utf-8
+    Content-Length: 261
+    Host: 127.0.0.1:8065
+    Connection: Keep-Alive
+  corps requête :
+    {
+      "login_id": "<MASQUÉ : 10 caractères, transmis en clair>",
+      "voip_device_id": "",
+      "password": "<MASQUÉ : 20 caractères, transmis en clair>",
+      "device_id": "<MASQUÉ : 156 caractères, transmis en clair>",
+      "token": ""
+    }
+  réponse : 200
+  en-têtes réponse :
+    Content-Type: application/json
+    Permissions-Policy: 
+    Referrer-Policy: no-referrer
+    Set-Cookie: <MASQUÉ : 315 caractères, transmis en clair>
+    Token: <MASQUÉ : 26 caractères, transmis en clair>
+    Vary: Accept-Encoding
+    X-Content-Type-Options: nosniff
+    X-Request-Id: 9p1e4kyr3pnqdxhbggzutn1yeo
+    X-Version-Id: 12.1.0.41996731193.96cad09afe3e0ba5f5eecafefdceee9c39b5bdcf488f79a8cf1485cd1840e629.false
+    Date: Wed, 18 Nov 2026 16:00:52 GMT
+    Content-Length: 737
+
+=== PUT http://127.0.0.1:8065/api/v4/users/me/patch
+  horodatage requête : 1795017653.275 (epoch)  version : HTTP/1.1
+  en-têtes requête :
+    X-Requested-With: XMLHttpRequest
+    User-Agent: Mattermost Mobile/2.46.0+835 (Android; 14; sdk_gphone64_x86_64)
+    X-CSRF-Token: <MASQUÉ : 26 caractères, transmis en clair>
+    Accept: application/json
+    Accept-Encoding: br, gzip
+    Authorization: <MASQUÉ : 33 caractères, transmis en clair>
+    Content-Type: application/json; charset=utf-8
+    Content-Length: 105
+    Host: 127.0.0.1:8065
+    Connection: Keep-Alive
+    Cookie: <MASQUÉ : 110 caractères, transmis en clair>
+  corps requête :
+    {
+      "timezone": {
+        "manualTimezone": "",
+        "automaticTimezone": "Africa/Casablanca",
+        "useAutomaticTimezone": "true"
+      }
+    }
+  réponse : 200
+  en-têtes réponse :
+    Content-Type: application/json
+    Permissions-Policy: 
+    Referrer-Policy: no-referrer
+    Vary: Accept-Encoding
+    X-Content-Type-Options: nosniff
+    X-Request-Id: 6q8cjrussf8hbkdee5zygzqjbr
+    X-Version-Id: 12.1.0.41996731193.96cad09afe3e0ba5f5eecafefdceee9c39b5bdcf488f79a8cf1485cd1840e629.false
+    Date: Wed, 18 Nov 2026 16:00:53 GMT
+    Content-Length: 754
+
+=== GET http://127.0.0.1:8065/api/v4/users/me/preferences
+  horodatage requête : 1795017653.401 (epoch)  version : HTTP/1.1
+  en-têtes requête :
+    X-Requested-With: XMLHttpRequest
+    User-Agent: Mattermost Mobile/2.46.0+835 (Android; 14; sdk_gphone64_x86_64)
+    Accept: application/json
+    Accept-Encoding: br, gzip
+    Authorization: <MASQUÉ : 33 caractères, transmis en clair>
+    Host: 127.0.0.1:8065
+    Connection: Keep-Alive
+    Cookie: <MASQUÉ : 110 caractères, transmis en clair>
+  réponse : 200

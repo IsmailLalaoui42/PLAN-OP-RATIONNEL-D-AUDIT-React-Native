@@ -1,0 +1,4 @@
+# Test      : DAST-NET-05
+# Horodatage: 2026-11-18T15:57:26Z (UTC)
+# Commande  : docker logs --since 3m mmlab-tls 2>&1 | tail -5; docker logs --since 3m mmlab-server 2>&1 | grep -i -E 'api/v4/system/ping|client_license|config/client' | tail -5
+# ----

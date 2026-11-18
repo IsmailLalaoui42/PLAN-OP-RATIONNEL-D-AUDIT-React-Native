@@ -1,0 +1,29 @@
+# Terminaison TLS du banc d'essai — certificats générés par scripts/gen_pki.py
+{
+	auto_https off
+	default_sni localhost
+}
+
+# 8443 — chaîne valide (AC « Lab Audit Root CA »), nom d'hôte correct : référence
+https://:8443 {
+	tls /pki/localhost-valid.crt /pki/localhost-valid.key
+	reverse_proxy mattermost:8065
+}
+
+# 8444 — chaîne valide mais nom d'hôte incorrect (DAST-NET-06)
+https://:8444 {
+	tls /pki/wronghost.crt /pki/wronghost.key
+	reverse_proxy mattermost:8065
+}
+
+# 8445 — certificat expiré (DAST-NET-07)
+https://:8445 {
+	tls /pki/localhost-expired.crt /pki/localhost-expired.key
+	reverse_proxy mattermost:8065
+}
+
+# 8446 — certificat auto-signé hors chaîne de confiance (DAST-NET-04)
+https://:8446 {
+	tls /pki/selfsigned.crt /pki/selfsigned.key
+	reverse_proxy mattermost:8065
+}

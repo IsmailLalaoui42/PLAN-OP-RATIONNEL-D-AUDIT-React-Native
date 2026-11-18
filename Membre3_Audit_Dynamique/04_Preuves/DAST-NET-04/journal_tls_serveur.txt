@@ -1,0 +1,4 @@
+# Test      : DAST-NET-04
+# Horodatage: 2026-11-18T15:50:11Z (UTC)
+# Commande  : docker logs --since 5m mmlab-tls 2>&1 | grep -i -E 'handshake|tls' | tail -8
+# ----

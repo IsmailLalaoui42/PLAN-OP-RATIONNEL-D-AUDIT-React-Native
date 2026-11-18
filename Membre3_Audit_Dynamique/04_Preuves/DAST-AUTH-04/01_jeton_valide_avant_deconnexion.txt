@@ -1,0 +1,6 @@
+# Test      : DAST-AUTH-04
+# Horodatage: 2026-11-18T16:01:50Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/scripts/session_probe.py' D:/DAST-Lab/flows/net03_cleartext.mitm me
+# ----
+jeton rejoué : sha256:486eb2530156… (26 car.)  serveur : http://127.0.0.1:8065
+GET /api/v4/users/me -> HTTP 200  {"username": "alice.test", "roles": "system_user"}

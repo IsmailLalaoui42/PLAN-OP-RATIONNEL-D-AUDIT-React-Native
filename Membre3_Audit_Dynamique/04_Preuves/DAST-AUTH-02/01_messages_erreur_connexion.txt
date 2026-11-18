@@ -1,0 +1,7 @@
+# Test      : DAST-AUTH-02
+# Horodatage: 2026-11-18T16:23:08Z (UTC)
+# Commande  : bash /d/DAST-Lab/logs/auth02.sh
+# ----
+1) compte inexistant                     : 401 0.264722s | api.user.login.invalid_credentials_email_username | Enter a valid email or username and/or password.
+2) compte existant, mauvais mot de passe : 401 0.531020s | api.user.login.invalid_credentials_email_username | Enter a valid email or username and/or password.
+3) e-mail inexistant                     : 401 0.274328s | api.user.login.invalid_credentials_email_username | Enter a valid email or username and/or password.

@@ -1,0 +1,15 @@
+# Test      : ENV-02
+# Horodatage: 2026-11-18T16:10:54Z (UTC)
+# Commande  : for k in ServiceSettings.MaximumLoginAttempts ServiceSettings.EnableMultifactorAuthentication ServiceSettings.SessionLengthMobileInHours ServiceSettings.ExtendSessionLengthWithActivity ServiceSettings.SessionIdleTimeoutInMinutes NativeAppSettings.MobileEnableBiometrics NativeAppSettings.MobilePreventScreenCapture NativeAppSettings.MobileJailbreakProtection NativeAppSettings.MobileEnableSecureFilePreview; do printf '%-48s = %s\n' $k "$(docker exec mmlab-server mmctl --local config get $k)"; done; echo '== licence :'; docker exec mmlab-server mmctl --local license get 2>&1 | head -3
+# ----
+ServiceSettings.MaximumLoginAttempts             = 10
+ServiceSettings.EnableMultifactorAuthentication  = false
+ServiceSettings.SessionLengthMobileInHours       = 4320
+ServiceSettings.ExtendSessionLengthWithActivity  = false
+ServiceSettings.SessionIdleTimeoutInMinutes      = 43200
+NativeAppSettings.MobileEnableBiometrics         = false
+NativeAppSettings.MobilePreventScreenCapture     = false
+NativeAppSettings.MobileJailbreakProtection      = false
+NativeAppSettings.MobileEnableSecureFilePreview  = false
+== licence :
+No license installed

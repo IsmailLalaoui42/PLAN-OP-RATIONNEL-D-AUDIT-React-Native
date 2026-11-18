@@ -1,0 +1,29 @@
+# Test      : DAST-STO-05
+# Horodatage: 2026-11-18T16:22:37Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/scripts/scan_sandbox.py' D:/DAST-Lab/sandbox/logout D:/DAST-Lab/flows/ref_https.mitm 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/comptes_test.local.env' CANARI-M3-a1612af3; echo; echo '== cookies WebView aprÃ¨s dÃ©connexion :'; PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I D:/DAST-Lab/logs/q_cookies.py 'D:/DAST-Lab/sandbox/logout/com.mattermost.rnbeta/app_webview/Default/Cookies' 2>&1 | tail -4; echo '== bases propres au serveur :'; ls -la /d/DAST-Lab/sandbox/logout/com.mattermost.rnbeta/files/databases/
+# ----
+copie analysée : D:\DAST-Lab\sandbox\logout
+jeton recherché : oui (26 car.)
+
+30 fichiers, 2892 Kio
+
+— Bases SQLite en clair (en-tête lisible) :
+  com.mattermost.rnbeta\app_webview\Default\Cookies  (24 Kio)
+  com.mattermost.rnbeta\files\databases\app.db  (4 Kio)
+  com.mattermost.rnbeta\no_backup\androidx.work.workdb  (4 Kio)
+
+— Occurrences par élément recherché :
+  canari (contenu de messages)     : AUCUNE
+  jeton de session                 : AUCUNE
+  mot de passe alice               : AUCUNE
+  identifiant alice                : AUCUNE
+
+== cookies WebView aprÃ¨s dÃ©connexion :
+colonnes : creation_utc, host_key, top_frame_site_key, name, value, encrypted_value, path, expires_utc, is_secure, is_httponly, last_access_utc, has_expires, is_persistent, priority, samesite, source_scheme, source_port, is_same_party, last_update_utc
+== bases propres au serveur :
+total 480
+drwxr-xr-x 1 ismai 197610      0 Nov 18 16:22 .
+drwxr-xr-x 1 ismai 197610      0 Nov 18 16:19 ..
+-rw-r--r-- 1 ismai 197610   4096 Nov 18 15:48 app.db
+-rw-r--r-- 1 ismai 197610  32768 Nov 18 16:22 app.db-shm
+-rw-r--r-- 1 ismai 197610 449112 Nov 18 16:22 app.db-wal

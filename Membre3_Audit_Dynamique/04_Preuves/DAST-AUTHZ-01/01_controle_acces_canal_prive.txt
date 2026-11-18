@@ -1,0 +1,12 @@
+# Test      : DAST-AUTHZ-01
+# Horodatage: 2026-11-18T16:54:20Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I D:/DAST-Lab/logs/authz.py D:/DAST-Lab/flows/ref_https.mitm hdphsi9mp7yuzpqj33hi7bjrxy
+# ----
+jeton de l'application (alice) : sha256:a614da9c72de... (26 car.)
+controle : GET /users/me -> 200 (alice.test)
+GET  /channels/<canal-prive-bob>                  -> HTTP 403  api.context.permissions.app_error   [lire les metadonnees du canal prive de bob]
+GET  /channels/<canal-prive-bob>/posts            -> HTTP 403  api.context.permissions.app_error   [lire les messages du canal prive de bob]
+POST /channels/<canal-prive-bob>/members          -> HTTP 403  api.context.permissions.app_error   [s'ajouter au canal prive de bob]
+GET  /users/<bob>/sessions                        -> HTTP 403  api.context.permissions.app_error   [lister les sessions de bob]
+PUT  /users/<bob>/patch                           -> HTTP 403  api.context.permissions.app_error   [modifier le profil de bob]
+GET  /users/me/sessions                           -> HTTP 200  donnees renvoyees   [controle positif : ses propres sessions]

@@ -1,0 +1,17 @@
+# Test      : DAST-RES-01
+# Horodatage: 2026-11-18T17:01:16Z (UTC)
+# Commande  : echo '== android:debuggable présent dans le manifeste ? (0 = non => non débogable) =='; grep -c 'android:debuggable' /d/DAST-Lab/re/apktool-out/AndroidManifest.xml; echo; echo '== schémas de signature de l APK officiel non signé =='; /d/DAST-Lab/android-sdk/build-tools/36.1.0/apksigner.bat verify --verbose 'D:/DAST-Lab/apks/Mattermost-v2.46.0-unsigned.apk' 2>&1 | grep -iE 'v1 sch|v2 sch|v3 sch|v4 sch|signer|DOES NOT' | head; echo; echo '== APK de labo re-signé (installé) =='; /d/DAST-Lab/android-sdk/build-tools/36.1.0/apksigner.bat verify --verbose 'D:/DAST-Lab/apks/signed/Mattermost-v2.46.0-labsigned.apk' 2>&1 | grep -iE 'v1 sch|v2 sch|v3 sch|v4 sch|Verified' | head
+# ----
+== android:debuggable présent dans le manifeste ? (0 = non => non débogable) ==
+0
+
+== schémas de signature de l APK officiel non signé ==
+DOES NOT VERIFY
+
+== APK de labo re-signé (installé) ==
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): false
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false

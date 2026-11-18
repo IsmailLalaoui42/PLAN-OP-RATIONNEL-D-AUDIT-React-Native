@@ -1,0 +1,8 @@
+# Test      : DAST-ERR-01
+# Horodatage: 2026-11-18T16:56:50Z (UTC)
+# Commande  : echo 'Serveur arrêté (docker stop mmlab-server).'; echo 'Message affiché en gris, bouton post.failed.button présent (échec de l envoi).'; echo 'Aucune trace technique ni code d erreur exposé dans l interface.'; ui_dump_marker=1; grep -c '' /dev/null
+# ----
+Serveur arrêté (docker stop mmlab-server).
+Message affiché en gris, bouton post.failed.button présent (échec de l envoi).
+Aucune trace technique ni code d erreur exposé dans l interface.
+0

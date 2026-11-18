@@ -1,0 +1,488 @@
+<title>Audit Dynamique — Mattermost</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Tableau de bord d'audit dynamique — canvas fintech quasi-noir (direction Revolut),
+     craft Apple (profondeur, clarté, mouvement mesuré). Monochrome + cobalt + couleurs sémantiques.
+     Parti pris sombre unique assumé : fond et couleurs tous explicites, color-scheme: dark. */
+  :root {
+    color-scheme: dark;
+    --canvas: #09090b;
+    --surface: #141418;
+    --surface-2: #1c1c22;
+    --elevated: #26262e;
+    --hairline: rgba(255,255,255,0.09);
+    --hairline-strong: rgba(255,255,255,0.16);
+    --ink: #f6f6f8;
+    --ink-mute: rgba(246,246,248,0.70);
+    --ink-faint: rgba(246,246,248,0.56);
+    --cobalt: #6166f4;
+    --cobalt-bright: #7d82ff;
+    --good: #16c79a;
+    --warn: #f3a93c;
+    --high: #ff7a45;
+    --crit: #ff4d5e;
+    --info: #7a86a0;
+    --r-sm: 10px;
+    --r-md: 16px;
+    --r-lg: 22px;
+    --pill: 9999px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --fs-display: clamp(2.6rem, 8vw, 5.2rem);
+    --maxw: 1120px;
+    --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding-left: max(18px, env(safe-area-inset-left, 0px));
+    padding-right: max(18px, env(safe-area-inset-right, 0px));
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+  a { color: var(--cobalt-bright); }
+
+  /* ambient glow */
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(60vw 44vw at 82% -6%, rgba(97,102,244,0.20), transparent 60%),
+      radial-gradient(50vw 40vw at 4% 2%, rgba(22,199,154,0.07), transparent 55%);
+    pointer-events: none; z-index: 0;
+  }
+  .wrap, header.top { position: relative; z-index: 1; }
+
+  /* ---- header ---- */
+  header.top { padding-block: clamp(34px, 7vw, 78px) clamp(20px, 4vw, 40px); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 600;
+    border: 1px solid var(--hairline); border-radius: var(--pill);
+    padding: 7px 15px; background: rgba(255,255,255,0.02);
+  }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--good); box-shadow: 0 0 12px var(--good); }
+  header.top h1 { font-size: var(--fs-display); line-height: 0.98; margin-top: 22px; }
+  header.top h1 .acc { color: var(--cobalt-bright); }
+  .subhead { color: var(--ink-mute); max-width: 56ch; margin-top: 18px; font-size: 1.02rem; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .chip-meta {
+    font-size: 0.78rem; color: var(--ink-mute);
+    border: 1px solid var(--hairline); border-radius: var(--pill);
+    padding: 6px 13px; background: var(--surface);
+  }
+  .chip-meta b { color: var(--ink); font-weight: 600; }
+
+  /* ---- KPI tiles ---- */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 30px; }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: var(--r-md); padding: 20px 18px; min-width: 0;
+    position: relative; overflow: hidden;
+  }
+  .kpi .v { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.9rem); line-height: 1; font-weight: 600; }
+  .kpi .l { color: var(--ink-mute); font-size: 0.8rem; margin-top: 8px; }
+  .kpi .rail { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+
+  section { padding-block: clamp(30px, 5vw, 56px); }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .sec-head h2 { font-size: clamp(1.5rem, 3.6vw, 2.1rem); }
+  .sec-no { font-family: var(--font-display); color: var(--cobalt); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; }
+  .sec-sub { color: var(--ink-mute); max-width: 62ch; margin: 2px 0 26px; font-size: 0.95rem; }
+
+  /* ---- risk matrix ---- */
+  .matrix-layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 26px; align-items: start; }
+  .matrix-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--r-lg); padding: 20px; }
+  .matrix-grid-wrap { display: grid; grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; gap: 10px; }
+  .axis-y { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; color: var(--ink-mute); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; align-self: center; }
+  .axis-x { grid-column: 2; text-align: center; color: var(--ink-mute); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .matrix { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr); gap: 5px; aspect-ratio: 1 / 1; }
+  .cell { border-radius: 8px; position: relative; transition: transform 0.25s var(--ease); }
+  .cell .score { position: absolute; top: 4px; left: 6px; font-size: 0.62rem; color: rgba(0,0,0,0.78); font-weight: 700; }
+  .risk-dot {
+    position: absolute; inset: 0; margin: auto; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--canvas); color: var(--ink); border: 2px solid var(--ink);
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-display);
+    font-weight: 600; font-size: 0.92rem; cursor: pointer; transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .risk-dot:hover, .risk-dot:focus-visible { transform: scale(1.14); box-shadow: 0 6px 20px rgba(0,0,0,0.5); outline: none; }
+  .risk-dot.active { box-shadow: 0 0 0 3px var(--cobalt-bright), 0 6px 20px rgba(0,0,0,0.5); }
+  .mini-cap { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 0.73rem; color: var(--ink-mute); }
+  .mini-cap span { display: inline-flex; align-items: center; gap: 6px; }
+  .mini-cap i { width: 11px; height: 11px; border-radius: 3px; }
+
+  /* risk detail panel */
+  .risk-detail { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--r-lg); padding: 22px; min-height: 240px; }
+  .risk-detail .rd-id { font-family: var(--font-display); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em; color: var(--cobalt-bright); }
+  .risk-detail h3 { font-size: 1.22rem; margin: 8px 0 12px; line-height: 1.2; }
+  .rd-score-row { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .rd-badge { border-radius: var(--pill); padding: 5px 12px; font-size: 0.76rem; font-weight: 600; border: 1px solid var(--hairline); }
+  .rd-scenario { color: var(--ink-mute); font-size: 0.92rem; }
+  .rd-meta { margin-top: 14px; display: grid; gap: 8px; font-size: 0.82rem; }
+  .rd-meta div { display: flex; gap: 8px; }
+  .rd-meta .k { color: var(--ink-faint); min-width: 96px; }
+  .rd-link { display: inline-flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+  .rd-link button { all: unset; cursor: pointer; font-size: 0.74rem; color: var(--cobalt-bright); border: 1px solid var(--hairline); border-radius: var(--pill); padding: 4px 11px; }
+
+  /* ---- filters ---- */
+  .filters { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+  .filters .grp-label { width: 100%; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); margin-top: 6px; }
+  .chip {
+    all: unset; cursor: pointer; font-size: 0.8rem; padding: 7px 14px; border-radius: var(--pill);
+    border: 1px solid var(--hairline); color: var(--ink-mute); background: var(--surface);
+    transition: all 0.2s var(--ease); display: inline-flex; align-items: center; gap: 7px;
+  }
+  .chip:hover { border-color: var(--hairline-strong); color: var(--ink); }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--canvas); border-color: var(--ink); font-weight: 600; }
+  .chip .cnt { font-size: 0.72rem; opacity: 0.7; }
+
+  /* ---- test journal ---- */
+  .journal { display: flex; flex-direction: column; gap: 9px; }
+  .test {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--r-md);
+    overflow: hidden; transition: border-color 0.2s var(--ease);
+  }
+  .test:hover { border-color: var(--hairline-strong); }
+  .test-head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 15px 18px; cursor: pointer; }
+  .test-head::-webkit-details-marker { display: none; }
+  .tid { font-family: var(--font-display); font-size: 0.8rem; font-weight: 600; color: var(--ink-mute); letter-spacing: 0.04em; white-space: nowrap; }
+  .ttitle { font-size: 0.96rem; font-weight: 500; min-width: 0; }
+  .ttitle .cat { display: block; font-size: 0.72rem; color: var(--ink-faint); margin-top: 2px; }
+  .status-pill { border-radius: var(--pill); padding: 5px 12px; font-size: 0.73rem; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .status-pill i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .test-body { padding: 0 18px 18px; display: grid; gap: 14px; }
+  .test-body .block-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); margin-bottom: 5px; }
+  .test-body .obs { color: var(--ink); font-size: 0.9rem; }
+  .ref-row { display: flex; flex-wrap: wrap; gap: 7px; }
+  .ref-tag { font-size: 0.72rem; color: var(--ink-mute); border: 1px solid var(--hairline); border-radius: 7px; padding: 4px 9px; background: var(--surface-2); font-family: var(--font-display); }
+  .ev-list { display: grid; gap: 5px; }
+  .ev-item { font-size: 0.78rem; color: var(--ink-mute); font-family: ui-monospace, "Cascadia Code", monospace; display: flex; gap: 8px; align-items: center; }
+  .ev-item::before { content: ""; width: 5px; height: 5px; border-radius: 1px; background: var(--cobalt); flex: none; }
+  .grav-stripe { width: 3px; align-self: stretch; border-radius: 2px; }
+
+  /* ---- plan ---- */
+  .plan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+  .plan-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--r-md); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .plan-card .pc-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .plan-card .pc-ref { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
+  .plan-card .pc-prio { font-size: 0.72rem; font-weight: 600; border-radius: var(--pill); padding: 4px 11px; }
+  .plan-card .pc-measure { font-size: 0.9rem; }
+  .plan-card .pc-ct { font-size: 0.82rem; color: var(--ink-mute); border-top: 1px solid var(--hairline); padding-top: 11px; }
+  .plan-card .pc-ct b { color: var(--good); font-weight: 600; }
+  .pc-foot { display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.74rem; color: var(--ink-faint); margin-top: auto; }
+  .pc-foot span { border: 1px solid var(--hairline); border-radius: var(--pill); padding: 3px 10px; }
+
+  footer { padding-block: 40px 60px; color: var(--ink-faint); font-size: 0.78rem; border-top: 1px solid var(--hairline); margin-top: 20px; }
+  footer .colophon { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+
+  @media (max-width: 860px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .matrix-layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .test-head { grid-template-columns: 1fr auto; }
+    .tid { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>Audit dynamique · DAST · Membre 3</span>
+    <h1>Audit dynamique<br><span class="acc">Mattermost Mobile</span></h1>
+    <p class="subhead">Tests dynamiques, analyse de risques et plan de remédiation d'une application mobile React Native, alignés OWASP MASVS / MASTG et ISO/IEC 27001. Tout a été exécuté sur un serveur de labo isolé, avec des comptes factices.</p>
+    <div class="meta-row">
+      <span class="chip-meta">Cible <b>Mattermost 2.46.0 (835)</b></span>
+      <span class="chip-meta">Serveur <b>12.1.0 · Team</b></span>
+      <span class="chip-meta">Appareil <b>Android 14 · émulateur</b></span>
+      <span class="chip-meta">Période <b>18/11/2026</b></span>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+</header>
+
+<main>
+  <section id="risques">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-no">01</span><h2>Carte des risques</h2></div>
+      <p class="sec-sub">Cinq risques priorisés, positionnés par vraisemblance et impact (échelle 1 à 5). Touchez un point pour le détail, son scénario et les constats qui le prouvent.</p>
+      <div class="matrix-layout">
+        <div class="matrix-card">
+          <div class="matrix-grid-wrap">
+            <div class="axis-y">Impact →</div>
+            <div class="matrix" id="matrix"></div>
+            <div class="axis-x">Vraisemblance →</div>
+          </div>
+          <div class="mini-cap">
+            <span><i style="background:var(--good)"></i>Faible</span>
+            <span><i style="background:var(--warn)"></i>Modéré</span>
+            <span><i style="background:var(--high)"></i>Élevé</span>
+            <span><i style="background:var(--crit)"></i>Critique</span>
+          </div>
+        </div>
+        <div class="risk-detail" id="riskDetail"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="journal">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-no">02</span><h2>Journal de tests DAST</h2></div>
+      <p class="sec-sub">Chaque constat porte un identifiant, l'exigence testée, l'observation, la gravité et un état. Filtrez par état ou par catégorie ; dépliez une ligne pour l'observation et ses preuves horodatées.</p>
+      <div class="filters" id="filters"></div>
+      <div class="journal" id="journal"></div>
+    </div>
+  </section>
+
+  <section id="plan">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-no">03</span><h2>Plan correctif &amp; contre-tests</h2></div>
+      <p class="sec-sub">Pour chaque risque, la mesure proposée, le responsable, la priorité et le contre-test qui permettra de vérifier la correction.</p>
+      <div class="plan-grid" id="plan"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="colophon">
+      <span>Audit dynamique — Membre 3</span>
+      <span>Module Compliance &amp; Gouvernance — Pr. A. Zineddine</span>
+      <span>OWASP MASVS/MASTG · ISO/IEC 27001</span>
+      <span>72 preuves · 24 tests</span>
+      <span>Périmètre Android · comptes factices · serveur de labo isolé</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const DATA = {
+  tests: [
+    {id:"DAST-NET-04",titre:"Rejet des certificats TLS non fiables (auto-signé, AC inconnue)",categorie:"Réseau / TLS",masvs:"MASVS-NETWORK-1",mastg:"MASTG-TEST-0020 / 0022",iso:"A.13.2.1, A.14.1.3",exigence:"L'application doit refuser une chaîne TLS non vérifiable.",observation:"Sur 8443 (AC inconnue de l'appareil) et 8446 (auto-signé), l'application refuse la connexion (« Cannot connect to the server. ») ; logcat : NetworkClient.rejectInvalidCertificate.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-NET-04/01_ac_inconnue_8443.png","DAST-NET-04/02_autosigne_8446.png","DAST-NET-04/logcat_rejet_complet_8443.txt"]},
+    {id:"DAST-NET-06",titre:"Vérification du nom d'hôte du certificat",categorie:"Réseau / TLS",masvs:"MASVS-NETWORK-1",mastg:"MASTG-TEST-0021",iso:"A.13.2.1",exigence:"Un certificat valide mais émis pour un autre nom d'hôte doit être rejeté.",observation:"Sur 8444 (certificat signé par l'AC de confiance mais pour wrong.host.invalid), la connexion est refusée.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-NET-06/01_mauvais_nom_hote_8444.png","DAST-NET-06/logcat_client.txt"]},
+    {id:"DAST-NET-07",titre:"Rejet d'un certificat expiré",categorie:"Réseau / TLS",masvs:"MASVS-NETWORK-1",mastg:"MASTG-TEST-0020",iso:"A.13.2.1",exigence:"Un certificat expiré doit être rejeté.",observation:"Sur 8445 (certificat expiré depuis 30 jours), la connexion est refusée.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-NET-07/01_certificat_expire_8445.png","DAST-NET-07/logcat_client.txt"]},
+    {id:"DAST-NET-03",titre:"Acceptation du trafic en clair (HTTP)",categorie:"Réseau / TLS",masvs:"MASVS-NETWORK-1",mastg:"MASTG-TEST-0235 / 0238",iso:"A.13.2.1, A.10.1.1",exigence:"L'application ne devrait pas transporter d'identifiants sur un canal en clair.",observation:"Avec une URL http:// explicite, l'application se connecte et transmet identifiant, mot de passe et jeton de session en clair (POST /users/login, en-tête Token et Set-Cookie en HTTP). Un préfixe http:// est accepté sans avertissement ; seule l'absence de schéma est refusée.",gravite:"Élevée",etat:"Non conforme",resultat:"non_conforme",preuves:["DAST-NET-03/03_http_explicite_8066.png","DAST-NET-03/flux_http_connexion_masque.txt"]},
+    {id:"DAST-NET-05",titre:"Confiance aux AC utilisateur et absence d'épinglage",categorie:"Réseau / TLS",masvs:"MASVS-NETWORK-2",mastg:"MASTG-TEST-0286 / 0242 / 0244",iso:"A.13.2.1, A.14.1.3",exigence:"Une application sensible devrait épingler son certificat et ignorer les AC ajoutées par l'utilisateur.",observation:"Après installation d'une AC de labo dans le magasin utilisateur, l'application accepte la connexion TLS et poursuit l'authentification : tout le trafic est déchiffrable par un intercepteur (mitmproxy). Confirmé statiquement : network_security_config.xml déclare <certificates src=\"user\"/> et cleartextTrafficPermitted=\"true\" ; aucun épinglage.",gravite:"Élevée",etat:"Non conforme",resultat:"non_conforme",preuves:["DAST-NET-05/02_ac_utilisateur_8443.png","DAST-NET-05/03_config_securite_reseau_statique.txt","DAST-NET-05/empreinte_ac_labo.txt"]},
+    {id:"DAST-AUTH-02",titre:"Énumération des comptes (message et temps de réponse)",categorie:"Authentification",masvs:"MASVS-AUTH-1",mastg:"MASTG-TEST-0017",iso:"A.9.4.2",exigence:"Les erreurs de connexion ne doivent pas distinguer un compte existant d'un compte inexistant.",observation:"Message d'erreur identique dans les trois cas (compte inexistant, mauvais mot de passe, e-mail inconnu). Écart de temps de réponse faible et bruité (médiane 119 ms contre 41 ms), non exploitable de façon fiable.",gravite:"Faible",etat:"Partiellement conforme",resultat:"partiel",preuves:["DAST-AUTH-02/01_messages_erreur_connexion.txt","DAST-AUTH-02/02_mesure_temps_reponse.txt"]},
+    {id:"DAST-AUTH-03",titre:"Verrouillage du compte après échecs répétés",categorie:"Authentification",masvs:"MASVS-AUTH-1",mastg:"MASTG-TEST-0017",iso:"A.9.4.2",exigence:"Un nombre d'essais infructueux limité doit bloquer temporairement les tentatives.",observation:"Après 10 échecs (MaximumLoginAttempts=10), le serveur renvoie check_user_login_attempts.too_many ; même le bon mot de passe est alors refusé. Protection côté serveur effective.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-AUTH-03/01_verrouillage_apres_echecs.txt"]},
+    {id:"DAST-AUTH-04",titre:"Invalidation du jeton après déconnexion",categorie:"Session",masvs:"MASVS-AUTH-2",mastg:"MASTG-TEST-0017",iso:"A.9.4.2, A.9.4.3",exigence:"Le jeton de session doit être invalidé côté serveur à la déconnexion.",observation:"Jeton valide avant déconnexion (GET /users/me = 200). Après « Log out » (POST /users/logout = 200), le rejeu du même jeton renvoie 401 session_expired.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-AUTH-04/01_jeton_valide_avant_deconnexion.txt","DAST-AUTH-04/04_rejeu_jeton_apres_deconnexion.txt"]},
+    {id:"DAST-AUTH-05",titre:"Révocation de session côté serveur",categorie:"Session",masvs:"MASVS-AUTH-2",mastg:"MASTG-TEST-0017",iso:"A.9.2.1, A.9.4.3",exigence:"La révocation administrative d'une session doit déconnecter l'application.",observation:"Après révocation de toutes les sessions d'alice (0 session restante), l'application détecte « Invalid or expired session » et revient à l'écran de connexion au redémarrage. Point de robustesse : écran blanc transitoire avant le redémarrage.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-AUTH-05/01_revocation_cote_serveur.txt","DAST-AUTH-05/03_retour_ecran_serveur_apres_relancement.png"]},
+    {id:"DAST-AUTH-06",titre:"Durée de session mobile, inactivité et MFA",categorie:"Session",masvs:"MASVS-AUTH-2",mastg:"MASTG-TEST-0017",iso:"A.9.4.2, A.9.4.3",exigence:"La durée de session mobile doit être raisonnable, bornée par l'inactivité, avec un second facteur disponible.",observation:"Session mobile de 180 jours (4320 h) ; ExtendSessionLengthWithActivity=false ; pas d'expiration par inactivité appliquée (licence) ; MFA désactivée. Un jeton intercepté donne un accès très durable.",gravite:"Moyenne",etat:"Non conforme",resultat:"non_conforme",preuves:["DAST-AUTH-06/duree_session_mobile.txt","ENV-02/configuration_securite_serveur.txt"]},
+    {id:"DAST-AUTHZ-01",titre:"Contrôle d'accès à un canal privé et au profil d'un tiers",categorie:"Autorisation",masvs:"MASVS-AUTH-3",mastg:"MASTG-TEST-0025",iso:"A.9.4.1",exigence:"Un utilisateur ne doit pas accéder aux ressources privées d'un autre.",observation:"Avec le jeton d'alice, cinq requêtes directes à l'API (canal privé de bob, ses messages, auto-ajout, ses sessions, son profil) renvoient toutes 403 ; le contrôle positif (ses propres sessions) renvoie 200. Autorisation correctement appliquée côté serveur.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-AUTHZ-01/01_controle_acces_canal_prive.txt"]},
+    {id:"DAST-STO-01",titre:"Stockage local des messages et du jeton",categorie:"Stockage",masvs:"MASVS-STORAGE-1",mastg:"MASTG-TEST-0001 / 0207",iso:"A.10.1.1, A.8.2.3",exigence:"Les données sensibles stockées localement doivent être protégées.",observation:"Le contenu des messages (canari) est en clair dans la base SQLite (fichier -wal). Le jeton (MMAUTHTOKEN) est en clair dans les cookies WebView (HttpOnly mais non Secure). Les identifiants du datastore RN_KEYCHAIN sont chiffrés (KeystoreAESGCM). Le mot de passe n'est jamais stocké. Pas de chiffrement applicatif au repos ; seule barrière : isolation Android + chiffrement de l'appareil.",gravite:"Moyenne",etat:"Partiellement conforme",resultat:"partiel",preuves:["DAST-STO-01/01_analyse_bac_a_sable_session_active.txt","DAST-STO-01/02_cookies_webview_detail.txt","DAST-STO-01/03_magasin_identifiants_datastore.txt"]},
+    {id:"DAST-STO-02",titre:"Fuite de données sensibles dans les journaux",categorie:"Stockage",masvs:"MASVS-STORAGE-2",mastg:"MASTG-TEST-0003",iso:"A.12.4.1",exigence:"Les journaux ne doivent contenir ni identifiants, ni jetons, ni contenu de messages.",observation:"Analyse de 58 000 lignes de logcat : aucune occurrence du mot de passe, du jeton, de l'identifiant ou du contenu des messages. Seules des URL de serveur apparaissent.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-STO-02/01_analyse_logcat.txt"]},
+    {id:"DAST-STO-03",titre:"Exclusion des sauvegardes Android",categorie:"Stockage",masvs:"MASVS-STORAGE-2",mastg:"MASTG-TEST-0009 / 0216",iso:"A.12.3.1",exigence:"Les données ne doivent pas fuir via le mécanisme de sauvegarde.",observation:"android:allowBackup=\"false\" ; une sauvegarde forcée (bmgr backupnow) renvoie « Backup is not allowed ».",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-STO-03/01_sauvegarde_android.txt"]},
+    {id:"DAST-STO-05",titre:"Rémanence des données après déconnexion",categorie:"Stockage",masvs:"MASVS-STORAGE-1",mastg:"MASTG-TEST-0001",iso:"A.8.2.3, A.9.4.3",exigence:"La déconnexion doit purger les données locales sensibles.",observation:"Après déconnexion, plus aucune occurrence du jeton, du contenu des messages, de l'identifiant ni du mot de passe ; la base de cookies WebView est vidée. La purge annoncée est effective.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-STO-05/02_analyse_bac_a_sable_apres_deconnexion.txt"]},
+    {id:"DAST-STO-06",titre:"Masquage du champ mot de passe",categorie:"Stockage",masvs:"MASVS-STORAGE-1",mastg:"MASTG-TEST-0008",iso:"A.9.4.2",exigence:"Le champ mot de passe doit être masqué à la saisie.",observation:"Le champ de mot de passe est de type password (texte masqué) dans l'arbre d'accessibilité.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-STO-06/01_champ_mot_de_passe_masque.png"]},
+    {id:"DAST-STO-07",titre:"Absence de FLAG_SECURE (captures, aperçu des récents)",categorie:"Plateforme",masvs:"MASVS-PLATFORM-3",mastg:"MASTG-TEST-0010 / 0292",iso:"A.11.2.9, A.8.2.3",exigence:"Le contenu sensible ne devrait pas apparaître dans les captures ni l'aperçu des applications récentes.",observation:"Aucun FLAG_SECURE : captures autorisées et aperçu des applications récentes montrant le contenu réel des canaux. L'activation serveur de MobilePreventScreenCapture reste sans effet sans licence Enterprise (voir CT-STO-07).",gravite:"Moyenne",etat:"Non conforme",resultat:"non_conforme",preuves:["DAST-STO-07/02_capture_ecran_autorisee_contenu_visible.png","DAST-STO-07/03_apercu_apps_recentes.png","DAST-STO-07/04_attributs_fenetre.txt"]},
+    {id:"CT-STO-07",titre:"Contre-test : activation de la protection anti-capture",categorie:"Plateforme",masvs:"MASVS-PLATFORM-3",mastg:"MASTG-TEST-0292",iso:"A.11.2.9",exigence:"Vérifier si le contrôle existant corrige DAST-STO-07.",observation:"L'activation de MobilePreventScreenCapture=true côté serveur n'ajoute pas FLAG_SECURE : la clé n'est pas exposée au client sans licence Enterprise (BuildEnterpriseReady=false). Le contrôle existe mais est inopérant dans cette configuration.",gravite:"Information",etat:"Non évalué",resultat:"contre_test",preuves:["CT-STO-07/02_drapeaux_apres_activation.txt","CT-STO-07/04_config_client_exposee.txt"]},
+    {id:"DAST-ERR-01",titre:"Gestion des erreurs quand le serveur est indisponible",categorie:"Robustesse",masvs:"MASVS-CODE-4",mastg:"MASTG-TEST-0041",iso:"A.14.1.1",exigence:"Une panne serveur ne doit pas provoquer de plantage ni divulguer de détails techniques.",observation:"Serveur arrêté pendant l'usage : l'envoi d'un message échoue proprement (message marqué en échec, bouton de renvoi), sans plantage ni trace technique affichée.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-ERR-01/01_envoi_pendant_serveur_indisponible.png","DAST-ERR-01/02_etat_interface_hors_ligne.txt"]},
+    {id:"DAST-PLT-03",titre:"Demande répétée d'autorisation de notifications",categorie:"Vie privée",masvs:"MASVS-PRIVACY-1",mastg:"MASTG-TEST-0256",iso:"A.9.4.1",exigence:"Les autorisations doivent être demandées à propos, avec justification.",observation:"L'autorisation des notifications est redemandée à chaque premier lancement puis après redémarrage, sans justification contextuelle. Impact faible (confort), écart aux bonnes pratiques de minimisation.",gravite:"Faible",etat:"Partiellement conforme",resultat:"partiel",preuves:["DAST-PLT-03/01_demande_notifications_premier_lancement.png","DAST-PLT-03/02_nouvelle_demande_notifications_apres_redemarrage.png"]},
+    {id:"DAST-PLT-01",titre:"Composants exportés",categorie:"Plateforme",masvs:"MASVS-PLATFORM-1",mastg:"MASTG-TEST-0029 / 0364",iso:"A.13.1.3",exigence:"Les composants exportés ne doivent pas exposer de fonctionnalité sensible sans protection.",observation:"7 composants exportés, tous standards (MainActivity, ShareActivity, récepteurs Firebase/WorkManager/ProfileInstaller). Aucun composant métier sensible exporté sans protection.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-PLT-01/01_composants_exportes.txt"]},
+    {id:"DAST-PLT-02",titre:"Schémas de liens profonds (deep links)",categorie:"Plateforme",masvs:"MASVS-PLATFORM-3",mastg:"MASTG-TEST-0028 / 0394",iso:"A.14.2.5",exigence:"Les entrées reçues via liens profonds doivent être validées.",observation:"Deux schémas personnalisés (mattermost://, mmauth://), sans hôte restreint. La validation des paramètres est à vérifier côté code (transmis au Membre 2) ; non exploité en dynamique.",gravite:"Faible",etat:"Non évalué",resultat:"a_verifier",preuves:["DAST-PLT-02/01_schemas_deep_links.txt"]},
+    {id:"DAST-RES-01",titre:"Débogage et signature de l'application",categorie:"Résilience",masvs:"MASVS-RESILIENCE-1",mastg:"MASTG-TEST-0038 / 0039",iso:"A.14.2.1",exigence:"L'application ne doit pas être débogable et doit être signée correctement.",observation:"android:debuggable absent du manifeste (non débogable). L'APK officiel est distribué non signé (à signer par le déployeur) ; re-signé en schéma v3 pour l'installation de test.",gravite:"Information",etat:"Conforme",resultat:"conforme",preuves:["DAST-RES-01/01_signature_et_debuggable.txt"]}
+  ],
+  risques: [
+    {id:"R1",titre:"Interception du trafic (AC utilisateur, pas d'épinglage, HTTP)",constats:["DAST-NET-05","DAST-NET-03"],scenario:"Sur un réseau hostile ou après installation d'une AC malveillante, un intercepteur déchiffre le trafic TLS et capture identifiants, jeton de session et messages. Le cas HTTP explicite les transmet même sans aucun chiffrement.",v:3,i:5,actif:"Identifiants, jeton, messages en transit",iso:"A.13.2.1, A.14.1.3, A.10.1.1"},
+    {id:"R2",titre:"Session très longue, sans inactivité ni MFA",constats:["DAST-AUTH-06"],scenario:"Un jeton capturé ou extrait reste exploitable jusqu'à 180 jours. L'absence d'expiration par inactivité et de MFA prolonge d'autant la fenêtre d'usurpation.",v:3,i:4,actif:"Jeton de session, compte",iso:"A.9.4.2, A.9.4.3"},
+    {id:"R3",titre:"Messages et jeton en clair dans le bac à sable",constats:["DAST-STO-01"],scenario:"Sur un appareil rooté, perdu ou compromis, les messages (SQLite -wal) et le jeton (cookie WebView) sont lisibles. Pas de chiffrement applicatif au repos ; seule barrière : isolation Android.",v:2,i:4,actif:"Messages locaux, jeton",iso:"A.10.1.1, A.8.2.3"},
+    {id:"R4",titre:"Contenu exposé par captures et aperçu des récents",constats:["DAST-STO-07","CT-STO-07"],scenario:"Sans FLAG_SECURE, une capture d'écran et la vignette des applications récentes exposent le contenu des canaux. Le correctif natif existe mais exige une licence Enterprise, absente ici.",v:3,i:3,actif:"Contenu affiché des conversations",iso:"A.11.2.9, A.8.2.3"},
+    {id:"R5",titre:"Écarts mineurs : temps de réponse, autorisations répétées",constats:["DAST-AUTH-02","DAST-PLT-03"],scenario:"Un écart de temps de réponse faible pourrait, à grande échelle, aider à distinguer des comptes ; les demandes répétées d'autorisation nuisent à la minimisation. Impact limité, exploitation peu fiable.",v:2,i:2,actif:"Liste des comptes, hygiène des autorisations",iso:"A.9.4.2, A.9.4.1"}
+  ],
+  plan: [
+    {ref:"R1",mesure:"Désactiver le trafic en clair (cleartextTrafficPermitted=false, retirer src=\"user\") et épingler le certificat côté application. À défaut, déployer derrière une AC publique reconnue et interdire HTTP au niveau réseau.",responsable:"Éditeur / Admin serveur",priorite:"Haute",effort:"Moyen",contre_test:"Rejouer DAST-NET-03 (http:// refusé) et DAST-NET-05 (connexion refusée malgré l'AC utilisateur) ; vérifier que mitmproxy ne déchiffre plus rien.",etat:"Ouvert"},
+    {ref:"R2",mesure:"Réduire SessionLengthMobileInHours (ex. 720 h), activer ExtendSessionLengthWithActivity, appliquer une expiration par inactivité, activer/imposer la MFA.",responsable:"Admin serveur",priorite:"Haute",effort:"Faible",contre_test:"Rejouer DAST-AUTH-06 : nouvelle durée annoncée, expiration d'un jeton inactif, demande d'un second facteur.",etat:"Ouvert"},
+    {ref:"R3",mesure:"Chiffrer les bases locales (SQLCipher) et stocker le jeton dans le Keystore matériel plutôt qu'un cookie WebView. Imposer un verrouillage d'écran à l'organisation.",responsable:"Éditeur de l'application",priorite:"Moyenne",effort:"Élevé",contre_test:"Rejouer DAST-STO-01 : bases et jeton non lisibles en clair dans une copie du bac à sable.",etat:"Ouvert"},
+    {ref:"R4",mesure:"Positionner FLAG_SECURE sur les écrans sensibles (ou acquérir la licence Enterprise activant MobilePreventScreenCapture). Sensibiliser les utilisateurs.",responsable:"Éditeur / Direction",priorite:"Moyenne",effort:"Faible",contre_test:"Rejouer DAST-STO-07 : capture bloquée et aperçu des récents masqué.",etat:"Ouvert"},
+    {ref:"R5",mesure:"Uniformiser le temps de réponse d'authentification (durée constante) ; demander l'autorisation de notifications une seule fois, avec justification contextuelle.",responsable:"Éditeur de l'application",priorite:"Basse",effort:"Faible",contre_test:"Rejouer DAST-AUTH-02 (écart non significatif) et DAST-PLT-03 (pas de nouvelle demande après refus).",etat:"Ouvert"}
+  ]
+};
+
+const GRAV = {
+  "Critique":"var(--crit)","Élevée":"var(--high)","Moyenne":"var(--warn)","Faible":"var(--info)","Information":"var(--good)"
+};
+const ETAT_COLOR = {
+  "Conforme":"var(--good)","Non conforme":"var(--crit)","Partiellement conforme":"var(--warn)","Non évalué":"var(--info)"
+};
+function scoreColor(s){ if(s>=17) return "var(--crit)"; if(s>=10) return "var(--high)"; if(s>=5) return "var(--warn)"; return "var(--good)"; }
+function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; }
+
+/* ---- KPIs ---- */
+(function(){
+  const t = DATA.tests;
+  const nc = t.filter(x=>x.resultat==="non_conforme").length;
+  const co = t.filter(x=>x.resultat==="conforme").length;
+  const pa = t.filter(x=>x.resultat==="partiel").length;
+  const tiles = [
+    {v:t.length, l:"Tests exécutés", c:"var(--cobalt)"},
+    {v:nc, l:"Non-conformités", c:"var(--crit)"},
+    {v:co+"/"+t.length, l:"Conformes", c:"var(--good)"},
+    {v:"72", l:"Preuves horodatées", c:"var(--warn)"}
+  ];
+  const host = document.getElementById("kpis");
+  tiles.forEach(k=>{
+    const d = el("div","kpi");
+    d.append(el("div","rail","")); d.lastChild.style.background=k.c;
+    d.append(el("div","v tnum",k.v));
+    d.append(el("div","l",k.l));
+    host.append(d);
+  });
+})();
+
+/* ---- Risk matrix ---- */
+(function(){
+  const m = document.getElementById("matrix");
+  // rows top->bottom = impact 5..1 ; cols left->right = vraisemblance 1..5
+  const cellOf = {};
+  for(let imp=5; imp>=1; imp--){
+    for(let v=1; v<=5; v++){
+      const s = imp*v;
+      const c = el("div","cell");
+      c.style.background = scoreColor(s);
+      c.style.opacity = "0.30";
+      c.append(el("span","score",s));
+      m.append(c);
+      cellOf[v+"-"+imp]=c;
+    }
+  }
+  DATA.risques.forEach(r=>{
+    const c = cellOf[r.v+"-"+r.i];
+    c.style.opacity="1";
+    const dot = el("button","risk-dot",r.id);
+    dot.setAttribute("aria-label", r.id+" : "+r.titre);
+    dot.addEventListener("click", ()=>selectRisk(r.id));
+    c.append(dot);
+  });
+  selectRisk("R1");
+})();
+
+function selectRisk(id){
+  document.querySelectorAll(".risk-dot").forEach(d=>d.classList.toggle("active", d.textContent===id));
+  const r = DATA.risques.find(x=>x.id===id);
+  const s = r.v*r.i;
+  const lvl = s>=17?"Critique":s>=10?"Élevé":s>=5?"Modéré":"Faible";
+  const host = document.getElementById("riskDetail");
+  host.innerHTML="";
+  host.append(el("div","rd-id",r.id+" · "+r.iso));
+  host.append(el("h3",null,r.titre));
+  const row = el("div","rd-score-row");
+  const b1=el("span","rd-badge","Score "+s+" · "+lvl); b1.style.color=scoreColor(s); b1.style.borderColor=scoreColor(s);
+  row.append(b1);
+  row.append(el("span","rd-badge","Vraisemblance "+r.v+"/5"));
+  row.append(el("span","rd-badge","Impact "+r.i+"/5"));
+  host.append(row);
+  host.append(el("p","rd-scenario",r.scenario));
+  const meta = el("div","rd-meta");
+  const a=el("div"); a.append(el("span","k","Actif")); a.append(el("span",null,r.actif)); meta.append(a);
+  const b=el("div"); b.append(el("span","k","Constats")); b.append(el("span",null,r.constats.join(", "))); meta.append(b);
+  host.append(meta);
+  const links = el("div","rd-link");
+  r.constats.forEach(cid=>{ const bt=el("button",null,"Voir "+cid+" ↓"); bt.addEventListener("click",()=>openTest(cid)); links.append(bt); });
+  host.append(links);
+}
+
+/* ---- Filters + journal ---- */
+let activeStatus="tous", activeCat="toutes";
+const CATS = [...new Set(DATA.tests.map(t=>t.categorie))];
+const STATUSES = [
+  {k:"tous",l:"Tous"},
+  {k:"Non conforme",l:"Non conforme"},
+  {k:"Partiellement conforme",l:"Partiel"},
+  {k:"Conforme",l:"Conforme"},
+  {k:"Non évalué",l:"Non évalué"}
+];
+(function(){
+  const host=document.getElementById("filters");
+  host.append(el("div","grp-label","État"));
+  STATUSES.forEach(s=>{
+    const cnt = s.k==="tous"?DATA.tests.length:DATA.tests.filter(t=>t.etat===s.k).length;
+    const b=el("button","chip",s.l+(cnt?` <span class="cnt">${cnt}</span>`:""));
+    b.setAttribute("aria-pressed", s.k==="tous");
+    b.addEventListener("click",()=>{ activeStatus=s.k; syncChips(host); render(); });
+    b.dataset.status=s.k; host.append(b);
+  });
+  host.append(el("div","grp-label","Catégorie"));
+  const allCat=el("button","chip","Toutes"); allCat.setAttribute("aria-pressed","true"); allCat.dataset.cat="toutes";
+  allCat.addEventListener("click",()=>{ activeCat="toutes"; syncChips(host); render(); }); host.append(allCat);
+  CATS.forEach(c=>{
+    const b=el("button","chip",c+` <span class="cnt">${DATA.tests.filter(t=>t.categorie===c).length}</span>`);
+    b.setAttribute("aria-pressed","false"); b.dataset.cat=c;
+    b.addEventListener("click",()=>{ activeCat=c; syncChips(host); render(); }); host.append(b);
+  });
+})();
+function syncChips(host){
+  host.querySelectorAll("[data-status]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.status===activeStatus));
+  host.querySelectorAll("[data-cat]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.cat===activeCat));
+}
+function render(){
+  const host=document.getElementById("journal"); host.innerHTML="";
+  const list = DATA.tests.filter(t=>
+    (activeStatus==="tous"||t.etat===activeStatus) && (activeCat==="toutes"||t.categorie===activeCat));
+  if(!list.length){ host.append(el("p","sec-sub","Aucun test pour ce filtre.")); return; }
+  list.forEach(t=>{
+    const d=el("details","test"); d.id="t-"+t.id;
+    const sum=el("summary","test-head");
+    const stripe=el("div","grav-stripe"); stripe.style.background=GRAV[t.gravite];
+    const left=el("div"); left.style.display="flex"; left.style.gap="12px"; left.style.alignItems="center"; left.style.minWidth="0";
+    left.append(stripe);
+    left.append(el("span","tid",t.id));
+    const tt=el("div","ttitle",t.titre+`<span class="cat">${t.categorie} · ${t.masvs} · gravité ${t.gravite.toLowerCase()}</span>`);
+    sum.append(left); sum.append(tt);
+    const pill=el("span","status-pill",`<i></i>${t.etat}`); pill.style.color=ETAT_COLOR[t.etat]; pill.style.background="rgba(255,255,255,0.04)"; pill.style.border="1px solid var(--hairline)";
+    sum.append(pill);
+    d.append(sum);
+    const body=el("div","test-body");
+    const ex=el("div"); ex.append(el("div","block-label","Exigence")); ex.append(el("div","obs",t.exigence)); body.append(ex);
+    const ob=el("div"); ob.append(el("div","block-label","Observation")); ob.append(el("div","obs",t.observation)); body.append(ob);
+    const refs=el("div"); refs.append(el("div","block-label","Référentiels"));
+    const rr=el("div","ref-row"); [["MASTG",t.mastg],["ISO 27001",t.iso]].forEach(([k,v])=>rr.append(el("span","ref-tag",k+" · "+v))); refs.append(rr); body.append(refs);
+    const ev=el("div"); ev.append(el("div","block-label","Preuves ("+t.preuves.length+")"));
+    const evl=el("div","ev-list"); t.preuves.forEach(p=>evl.append(el("div","ev-item",p))); ev.append(evl); body.append(ev);
+    d.append(body);
+    host.append(d);
+  });
+}
+render();
+
+function openTest(id){
+  activeStatus="tous"; activeCat="toutes";
+  syncChips(document.getElementById("filters")); render();
+  const d=document.getElementById("t-"+id);
+  if(d){ d.open=true; d.scrollIntoView({behavior:"smooth", block:"center"}); d.querySelector(".test-head").style.outline="2px solid var(--cobalt-bright)"; setTimeout(()=>{ if(d.querySelector(".test-head")) d.querySelector(".test-head").style.outline="none"; }, 1600); }
+}
+
+/* ---- Plan ---- */
+(function(){
+  const PRIO={"Haute":"var(--crit)","Moyenne":"var(--warn)","Basse":"var(--info)"};
+  const host=document.getElementById("plan");
+  DATA.plan.forEach(p=>{
+    const r=DATA.risques.find(x=>x.id===p.ref);
+    const c=el("div","plan-card");
+    const top=el("div","pc-top");
+    top.append(el("div","pc-ref",p.ref));
+    const pr=el("span","pc-prio","Priorité "+p.priorite.toLowerCase()); pr.style.color=PRIO[p.priorite]; pr.style.border="1px solid "+PRIO[p.priorite];
+    top.append(pr); c.append(top);
+    c.append(el("div","pc-measure",`<b style="font-weight:600">${r.titre}.</b> ${p.mesure}`));
+    c.append(el("div","pc-ct",`<b>Contre-test —</b> ${p.contre_test}`));
+    const foot=el("div","pc-foot");
+    foot.append(el("span",null,p.responsable));
+    foot.append(el("span",null,"Effort "+p.effort.toLowerCase()));
+    foot.append(el("span",null,"État : "+p.etat));
+    c.append(foot);
+    host.append(c);
+  });
+})();
+</script>

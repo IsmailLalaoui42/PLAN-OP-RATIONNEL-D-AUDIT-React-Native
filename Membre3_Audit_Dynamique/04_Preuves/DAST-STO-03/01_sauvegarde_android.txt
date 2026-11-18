@@ -1,0 +1,17 @@
+# Test      : DAST-STO-03
+# Horodatage: 2026-11-18T16:09:43Z (UTC)
+# Commande  : echo '== drapeaux du paquet :'; /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell dumpsys package com.mattermost.rnbeta | grep -E 'pkgFlags|privateFlags' | head -2; echo '== service de sauvegarde :'; /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell bmgr enable true; /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell bmgr enabled; /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell bmgr list transports; echo '== tentative de sauvegarde forcée :'; /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell bmgr backupnow com.mattermost.rnbeta 2>&1 | tail -4
+# ----
+== drapeaux du paquet :
+    privateFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE ALLOW_AUDIO_PLAYBACK_CAPTURE PARTIALLY_DIRECT_BOOT_AWARE PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ]
+== service de sauvegarde :
+Backup Manager now enabled
+Backup Manager currently enabled
+    com.android.localtransport/.LocalTransport
+    com.google.android.gms/.backup.migrate.service.D2dTransport
+  * com.google.android.gms/.backup.BackupTransportService
+== tentative de sauvegarde forcée :
+Running incremental backup for 1 requested packages.
+Package com.mattermost.rnbeta with result: Backup is not allowed
+Backup finished with result: Success

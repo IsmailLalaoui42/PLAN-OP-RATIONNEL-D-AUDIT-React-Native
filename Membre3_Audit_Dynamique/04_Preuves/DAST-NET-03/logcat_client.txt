@@ -1,0 +1,9 @@
+# Test      : DAST-NET-03
+# Horodatage: 2026-11-18T15:58:47Z (UTC)
+# Commande  : grep -E 'localhost:8065|CLEARTEXT|Cleartext' /d/DAST-Lab/logs/logcat_session.txt | tail -8
+# ----
+11-18 16:51:25.345  6932  6959 W cr_AWNetworkFetcherTask: java.io.IOException: Cleartext HTTP traffic to edgedl.me.gvt1.com not permitted
+11-18 16:51:25.345  6932  6959 W cr_AWNetworkFetcherTask: 	at com.android.okhttp.HttpHandler$CleartextURLFilter.checkURLPermitted(HttpHandler.java:127)
+11-18 16:58:36.326  4189  9230 E RNKeychainManager: No entry found for service: http://localhost:8065
+11-18 16:58:36.350  4189  4252 D TurboLogger: getServerUrlAfterRedirect error https://localhost:8065 {
+11-18 16:58:36.582  4189  4288 E RNKeychainManager: No entry found for service: http://localhost:8065

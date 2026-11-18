@@ -1,0 +1,6 @@
+# Test      : CT-STO-07
+# Horodatage: 2026-11-18T16:10:58Z (UTC)
+# Commande  : docker exec mmlab-server mmctl --local config set NativeAppSettings.MobilePreventScreenCapture true 2>&1 | tail -1; docker exec mmlab-server mmctl --local config get NativeAppSettings.MobilePreventScreenCapture
+# ----
+Value changed successfully
+true

@@ -1,0 +1,8 @@
+# Test      : DAST-AUTH-05
+# Horodatage: 2026-11-18T16:57:25Z (UTC)
+# Commande  : echo 'Révocation de toutes les sessions d alice par l administrateur (POST /users/<alice>/sessions/revoke/all) :'; curl -sk -o /dev/null -w 'HTTP %{http_code}\n' -X POST -H "Authorization: Bearer u7zsh7y86pfuz8hsids6r1h9oe" https://localhost:8443/api/v4/users/4fdukcht3jfpppn7ktyiom161c/sessions/revoke/all; echo 'Sessions restantes côté serveur :'; curl -sk -H "Authorization: Bearer u7zsh7y86pfuz8hsids6r1h9oe" https://localhost:8443/api/v4/users/4fdukcht3jfpppn7ktyiom161c/sessions | /d/DAST-Lab/venv/Scripts/python.exe -c 'import sys,json;print(len(json.load(sys.stdin)),"session(s)")'
+# ----
+Révocation de toutes les sessions d alice par l administrateur (POST /users/<alice>/sessions/revoke/all) :
+HTTP 200
+Sessions restantes côté serveur :
+0 session(s)

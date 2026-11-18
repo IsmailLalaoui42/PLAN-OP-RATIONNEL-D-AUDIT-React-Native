@@ -1,0 +1,27 @@
+# Secrets et identifiants (jamais versionnés)
+*.env
+*.key
+*.jks
+*.keystore
+*keystore*
+**/comptes_test.local.env
+
+# PKI de labo (régénérable via lab/scripts/gen_pki.py)
+Membre3_Audit_Dynamique/lab/pki/
+
+# Fichiers d'outillage design / analyse
+.impeccable/
+.design-check/
+.taste-skill/
+.playwright-cli/
+graphify-out/
+
+# Archives (peuvent contenir des secrets ; redondantes avec les fichiers suivis)
+*.rar
+*.zip
+*.7z
+
+# Divers OS / éditeurs
+.DS_Store
+Thumbs.db
+desktop.ini

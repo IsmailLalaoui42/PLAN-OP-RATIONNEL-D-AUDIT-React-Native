@@ -1,0 +1,9 @@
+# Test      : DAST-AUTH-04
+# Horodatage: 2026-11-18T16:03:49Z (UTC)
+# Commande  : echo 'Déconnexion via l application à 16:03:34 UTC'; grep -E 'users/logout' -A1 /d/DAST-Lab/logs/mitm_net03.log | tail -2; PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/scripts/session_probe.py' D:/DAST-Lab/flows/net03_cleartext.mitm me
+# ----
+Déconnexion via l application à 16:03:34 UTC
+127.0.0.1:57954: POST http://127.0.0.1:8065/api/v4/users/logout
+              << 200 OK 15b
+jeton rejou� : sha256:486eb2530156� (26 car.)  serveur : http://127.0.0.1:8065
+GET /api/v4/users/me -> HTTP 401  {"id": "api.context.session_expired.app_error", "message": "Invalid or expired session, please login again.", "detailed_error": "", "request_id": "a4zdz5fma78rbya6jaxc3qbx5r", "status_code": 401}

@@ -1,0 +1,8 @@
+# Test      : CT-STO-07
+# Horodatage: 2026-11-18T16:11:27Z (UTC)
+# Commande  : curl -s 'http://127.0.0.1:8065/api/v4/config/client?format=old' | /d/DAST-Lab/venv/Scripts/python.exe -c "import sys,json;c=json.load(sys.stdin);ks=[k for k in c if any(s in k for s in ('Mobile','Biometr','Jailbreak','ScreenCapture'))];print('clÃ©s mobiles exposÃ©es au client :', ks or 'AUCUNE'); print('BuildEnterpriseReady =',c.get('BuildEnterpriseReady'),'| IsLicensed =',c.get('IsLicensed'))"; echo '== licence client :'; curl -s 'http://127.0.0.1:8065/api/v4/license/client?format=old' | /d/DAST-Lab/venv/Scripts/python.exe -c "import sys,json;c=json.load(sys.stdin);print({k:c[k] for k in ('IsLicensed','SkuShortName') if k in c})"
+# ----
+clés mobiles exposées au client : ['FeatureFlagMobileEphemeralMode', 'FeatureFlagMobileSSOCodeExchange', 'MobileExternalBrowser']
+BuildEnterpriseReady = false | IsLicensed = None
+== licence client :
+{'IsLicensed': 'false'}

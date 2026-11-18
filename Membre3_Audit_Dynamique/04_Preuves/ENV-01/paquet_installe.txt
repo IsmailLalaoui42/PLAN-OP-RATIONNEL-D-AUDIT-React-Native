@@ -1,0 +1,11 @@
+# Test      : ENV-01
+# Horodatage: 2026-11-18T15:48:21Z (UTC)
+# Commande  : /d/DAST-Lab/android-sdk/platform-tools/adb.exe shell dumpsys package com.mattermost.rnbeta | grep -E 'versionName|versionCode|targetSdk|minSdk|flags=|pkgFlags|firstInstallTime' | head -12
+# ----
+    flags=0x0
+    versionCode=835 minSdk=30 targetSdk=36
+    versionName=2.46.0
+    flags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ]
+    pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ]
+      firstInstallTime=2026-11-18 16:48:12
+        android.permission.ACCESS_COARSE_LOCATION: granted=false, flags=[ REVOKE_WHEN_REQUESTED]

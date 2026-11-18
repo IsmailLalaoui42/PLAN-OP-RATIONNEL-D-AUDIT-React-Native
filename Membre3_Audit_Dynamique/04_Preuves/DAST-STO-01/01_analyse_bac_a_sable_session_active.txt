@@ -1,0 +1,23 @@
+# Test      : DAST-STO-01
+# Horodatage: 2026-11-18T16:08:37Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/scripts/scan_sandbox.py' D:/DAST-Lab/sandbox/session D:/DAST-Lab/flows/ref_https.mitm 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/comptes_test.local.env' CANARI-M3-a1612af3
+# ----
+copie analysée : D:\DAST-Lab\sandbox\session
+jeton recherché : oui (26 car.)
+
+36 fichiers, 5335 Kio
+
+— Bases SQLite en clair (en-tête lisible) :
+  com.mattermost.rnbeta\app_webview\Default\Cookies  (24 Kio)
+  com.mattermost.rnbeta\files\databases\aHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0Nw==.db  (4 Kio)
+  com.mattermost.rnbeta\files\databases\app.db  (4 Kio)
+  com.mattermost.rnbeta\no_backup\androidx.work.workdb  (4 Kio)
+
+— Occurrences par élément recherché :
+  canari (contenu de messages)     : 
+      com.mattermost.rnbeta\files\databases\aHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0Nw==.db-wal ×6
+  jeton de session                 : 
+      com.mattermost.rnbeta\app_webview\Default\Cookies ×1
+  mot de passe alice               : AUCUNE
+  identifiant alice                : 
+      com.mattermost.rnbeta\files\databases\aHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0Nw==.db-wal ×11

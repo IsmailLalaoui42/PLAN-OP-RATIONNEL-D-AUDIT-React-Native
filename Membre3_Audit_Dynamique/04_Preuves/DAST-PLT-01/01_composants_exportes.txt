@@ -1,0 +1,15 @@
+# Test      : DAST-PLT-01
+# Horodatage: 2026-11-18T17:00:49Z (UTC)
+# Commande  : echo '== composants exportés (android:exported=true) =='; grep -oE '<(activity|service|receiver|provider)[^>]*android:exported="true"[^>]*>' /d/DAST-Lab/re/apktool-out/AndroidManifest.xml | grep -oE 'android:name="[^"]*"' | sort -u | head -40; echo; echo 'Nombre total exporté :'; grep -cE 'android:exported="true"' /d/DAST-Lab/re/apktool-out/AndroidManifest.xml
+# ----
+== composants exportés (android:exported=true) ==
+android:name="androidx.profileinstaller.ProfileInstallReceiver"
+android:name="androidx.work.impl.background.systemjob.SystemJobService"
+android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+android:name="com.mattermost.rnbeta.MainActivity"
+android:name="com.mattermost.rnshare.ShareActivity"
+android:name="com.wix.reactnativenotifications.fcm.FcmInstanceIdListenerService"
+
+Nombre total exporté :
+7

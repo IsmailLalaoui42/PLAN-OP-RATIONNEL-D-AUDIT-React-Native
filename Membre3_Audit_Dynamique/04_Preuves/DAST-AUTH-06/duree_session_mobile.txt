@@ -1,0 +1,11 @@
+# Test      : DAST-AUTH-06
+# Horodatage: 2026-11-18T16:01:51Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I 'D:/IACS/3eme_Annee_IACS/COMPLIANCE/MINI PROJECT/Membre3_Audit_Dynamique/lab/scripts/session_probe.py' D:/DAST-Lab/flows/net03_cleartext.mitm sessions; echo '--- configuration serveur :'; docker exec mmlab-server mmctl --local config get ServiceSettings.SessionLengthMobileInHours; docker exec mmlab-server mmctl --local config get ServiceSettings.ExtendSessionLengthWithActivity; docker exec mmlab-server mmctl --local config get ServiceSettings.SessionIdleTimeoutInMinutes
+# ----
+jeton rejoué : sha256:486eb2530156… (26 car.)  serveur : http://127.0.0.1:8065
+GET /api/v4/users/<alice>/sessions (admin) -> HTTP 200
+  session créée 1795017652629 expire 1810569652629 -> durée 180.0 jours ; mobile=Android ; dernière activité 1795017652629
+--- configuration serveur :
+4320
+false
+43200

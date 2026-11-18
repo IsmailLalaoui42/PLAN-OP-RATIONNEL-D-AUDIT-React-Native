@@ -1,0 +1,8 @@
+# Test      : DAST-STO-01
+# Horodatage: 2026-11-18T16:08:53Z (UTC)
+# Commande  : PYTHONIOENCODING=utf-8 /d/DAST-Lab/venv/Scripts/python.exe -I D:/DAST-Lab/logs/q_cookies.py 'D:/DAST-Lab/sandbox/session/com.mattermost.rnbeta/app_webview/Default/Cookies'
+# ----
+colonnes : creation_utc, host_key, top_frame_site_key, name, value, encrypted_value, path, expires_utc, is_secure, is_httponly, last_access_utc, has_expires, is_persistent, priority, samesite, source_scheme, source_port, is_same_party, last_update_utc
+localhost | MMCSRF | valeur en clair: 26 car. | encrypted_value: 0 octets | HttpOnly=0 Secure=0 SameSite=-1 | expire=2027-05-17 16:05:53
+localhost | MMUSERID | valeur en clair: 26 car. | encrypted_value: 0 octets | HttpOnly=0 Secure=0 SameSite=-1 | expire=2027-05-17 16:05:53
+localhost | MMAUTHTOKEN | valeur en clair: 26 car. | encrypted_value: 0 octets | HttpOnly=1 Secure=0 SameSite=-1 | expire=2027-05-17 16:05:53
