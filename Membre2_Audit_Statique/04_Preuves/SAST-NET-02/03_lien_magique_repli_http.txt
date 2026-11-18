@@ -1,0 +1,18 @@
+# Test      : SAST-NET-02
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : sed -n 430,442p app/actions/remote/session.ts
+# ----
+export const magicLinkLogin = async (serverUrl: string, token: string): Promise<LoginActionResponse> => {
+    const httpsHeadRequest = await getServerUrlAfterRedirect(serverUrl);
+    let serverUrlToUse;
+    if (httpsHeadRequest.error || !httpsHeadRequest.url) {
+        // Retry with HTTP
+        const httpHeadRequest = await getServerUrlAfterRedirect(serverUrl, true);
+        if (httpHeadRequest.error || !httpHeadRequest.url) {
+            return {error: httpsHeadRequest.error || httpHeadRequest.error || 'empty server url', failed: true};
+        }
+        serverUrlToUse = httpHeadRequest.url;
+    } else {
+        serverUrlToUse = httpsHeadRequest.url;
+    }

@@ -1,0 +1,16 @@
+# Test      : SAST-CODE-01
+# Horodatage: 2026-11-18T18:28:59Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : sed -n 402,412p app/utils/deep_link/index.ts
+# ----
+    let urlToMatch = url;
+    const urlBase = serverURL || siteURL || '';
+    const parsedUrl = urlParse(url);
+
+    if (!parsedUrl.protocol) {
+        // If url doesn't contain site or server URL, tack it on.
+        // e.g. <jump to convo> URLs from autolink plugin.
+        const deepLinkMatch = new RegExp(escapeRegex(urlBase)).exec(url);
+        if (!deepLinkMatch) {
+            urlToMatch = urlBase + url;
+        }

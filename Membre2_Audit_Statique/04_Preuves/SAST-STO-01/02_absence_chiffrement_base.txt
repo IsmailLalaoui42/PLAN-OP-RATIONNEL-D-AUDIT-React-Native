@@ -1,0 +1,8 @@
+# Test      : SAST-STO-01
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : echo "Recherche SQLCipher / clé de chiffrement de base :"; grep -rniE "sqlcipher|encryptionKey|passphrase" app android/app/src/main libraries --include=*.ts --include=*.kt --include=*.java --include=*.gradle | grep -v "\.test\." || echo "0 occurrence"; grep -n "watermelondb" package.json
+# ----
+Recherche SQLCipher / clé de chiffrement de base :
+0 occurrence
+39:    "@nozbe/watermelondb": "0.28.1-0",

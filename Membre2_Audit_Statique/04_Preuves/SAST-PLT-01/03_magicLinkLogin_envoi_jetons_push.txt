@@ -1,0 +1,14 @@
+# Test      : SAST-PLT-01
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : sed -n 449,457p app/actions/remote/session.ts
+# ----
+    try {
+        const client = await NetworkManager.createClient(serverUrlToUse, undefined);
+        const config = await client.getClientConfigOld();
+        const deviceId = await getDeviceToken();
+        const voipDeviceId = await getVoIPDeviceToken();
+        const serverDisplayName = config.SiteName;
+
+        const user = await client.loginByMagicLinkLogin(token, deviceId, voipDeviceId);
+

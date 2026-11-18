@@ -1,0 +1,25 @@
+# Test      : SAST-PLT-02
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : grep -n "uses-permission" android/app/src/main/AndroidManifest.xml
+# ----
+8:    <uses-permission android:name="android.permission.INTERNET" />
+9:    <uses-permission android:name="android.permission.VIBRATE" />
+10:    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+11:    <uses-permission android:name="android.permission.CAMERA"/>
+12:    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+13:    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" tools:ignore="ScopedStorage" />
+14:    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" tools:ignore="SelectedPhotoAccess" />
+15:    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+18:    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+19:    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+20:    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+21:    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+22:    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+23:    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+24:    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE"/>
+25:    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+28:    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" tools:node="remove" />
+31:    <uses-permission android:name="android.permission.BLUETOOTH"
+33:    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+36:    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
