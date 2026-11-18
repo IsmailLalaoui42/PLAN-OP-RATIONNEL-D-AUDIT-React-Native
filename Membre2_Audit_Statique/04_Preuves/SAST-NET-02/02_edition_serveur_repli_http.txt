@@ -1,0 +1,11 @@
+# Test      : SAST-NET-02
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : sed -n 122,127p app/screens/edit_server/edit_server.tsx
+# ----
+
+            // HTTPS first, then HTTP; the secret is only sent over HTTPS
+            let headRequest = await getServerUrlAfterRedirect(server.url, false, secretForValidation);
+            if (!headRequest.url) {
+                headRequest = await getServerUrlAfterRedirect(server.url.replace('https:', 'http:'), true, secretForValidation);
+            }

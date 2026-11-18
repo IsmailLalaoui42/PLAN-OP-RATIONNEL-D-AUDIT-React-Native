@@ -1,0 +1,10 @@
+# Test      : SAST-STO-03
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : grep -nE "TurboLog\.(i|e)" android/app/src/main/java/com/mattermost/helpers/PushNotificationDataHelper.kt
+# ----
+43:                    TurboLog.i("ReactNative", "Skipping push notification data fetch for zero-persistence server=$serverUrl")
+58:                        TurboLog.i("ReactNative", "Start fetching notification data in server=$serverUrl for channel=$channelId and ack=$ackId")
+119:                        TurboLog.i("ReactNative", "Done processing push notification=$serverUrl for channel=$channelId and ack=$ackId")
+124:                    TurboLog.e("ReactNative", "Error processing push notification error=$eMessage")
+127:                    TurboLog.i("ReactNative", "DONE fetching notification data")

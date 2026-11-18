@@ -1,0 +1,21 @@
+# Test      : SAST-PLT-03
+# Horodatage: 2026-11-18T18:28:59Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : grep -nE "<activity|<service|<receiver|<provider|exported|launchMode|taskAffinity" android/app/src/main/AndroidManifest.xml
+# ----
+62:        <provider
+65:            android:exported="false"
+71:      <activity
+75:        android:launchMode="singleTask"
+77:        android:exported="true"
+78:        android:taskAffinity=""
+98:      <service android:name=".NotificationDismissService"
+100:                android:exported="false" />
+101:      <receiver android:name=".NotificationReplyBroadcastReceiver"
+103:               android:exported="false" />
+104:      <activity
+109:        android:taskAffinity="com.mattermost.share"
+110:        android:exported="true"
+122:      <service
+125:          android:exported="false"
+131:        <service android:name="com.margelo.nitro.backgroundtimer.NitroBackgroundTimerService" tools:node="remove" />

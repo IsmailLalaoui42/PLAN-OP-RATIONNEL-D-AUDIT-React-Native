@@ -1,0 +1,17 @@
+# Test      : SAST-PLT-03
+# Horodatage: 2026-11-18T18:28:59Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : sed -n 155,166p android/app/src/main/java/com/mattermost/helpers/CustomPushNotificationHelper.java
+# ----
+        Intent replyIntent = new Intent(context, NotificationReplyBroadcastReceiver.class);
+        replyIntent.setAction(KEY_TEXT_REPLY);
+        replyIntent.putExtra(NOTIFICATION_ID, notificationId);
+        replyIntent.putExtra(NOTIFICATION, bundle);
+
+        PendingIntent replyPendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            replyPendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    notificationId,
+                    replyIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);

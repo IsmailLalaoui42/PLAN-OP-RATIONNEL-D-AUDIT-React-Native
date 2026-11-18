@@ -1,0 +1,16 @@
+# Test      : SAST-PLT-02
+# Horodatage: 2026-11-18T18:28:59Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : sed -n 90,100p app/managers/session_attributes_manager/index.ts
+# ----
+                return;
+            }
+
+            setSessionAttributesManifest(serverUrl, manifest);
+
+            if (manifest.some((field) => field.name === SESSION_ATTRIBUTES_SSID_FIELD)) {
+                // Not awaited so the permission prompt never blocks the reconnect sync.
+                this.requestLocationPermission(serverUrl);
+            }
+        } catch (error) {
+            logDebug('[SessionAttributesManager.refreshManifest]', getFullErrorMessage(error));

@@ -1,0 +1,10 @@
+# Test      : SAST-DEP-02
+# Horodatage: 2026-11-18T18:28:59Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : head -4 libraries/@mattermost/hardware-keyboard/package.json; grep -n "hardware-keyboard" package.json
+# ----
+{
+  "name": "mattermost-hardware-keyboard",
+  "version": "0.0.0",
+  "description": "Hardware keyboard event capture replacing the project from react-native-hw-keyboard-event",
+30:    "@mattermost/hardware-keyboard": "file:./libraries/@mattermost/hardware-keyboard",

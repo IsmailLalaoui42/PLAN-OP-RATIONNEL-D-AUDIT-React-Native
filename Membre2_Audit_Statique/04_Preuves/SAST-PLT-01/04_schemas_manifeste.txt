@@ -1,0 +1,7 @@
+# Test      : SAST-PLT-01
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : grep -nE "android:scheme" android/app/src/main/AndroidManifest.xml
+# ----
+89:          <data android:scheme="mattermost" />
+95:          <data android:scheme="mmauthbeta" />

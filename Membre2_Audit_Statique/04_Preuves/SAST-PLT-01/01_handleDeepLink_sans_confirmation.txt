@@ -1,0 +1,20 @@
+# Test      : SAST-PLT-01
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : sed -n 52,66p app/utils/deep_link/index.ts
+# ----
+        const currentServerUrl = await getActiveServerUrl();
+        const existingServerUrl = DatabaseManager.searchUrl(deepLink.data.serverUrl);
+
+        // After checking the server for http & https then we add it
+        if (!existingServerUrl) {
+            const theme = EphemeralStore.getTheme() || getDefaultThemeByAppearance();
+
+            if (deepLink.type === DeepLink.MagicLink && 'token' in deepLink.data) {
+                const result = await magicLinkLogin(deepLink.data.serverUrl, deepLink.data.token);
+                if (result.error) {
+                    logError('Failed to do magic link login', result.error);
+                    return {error: true};
+                }
+                return {error: false};
+            }

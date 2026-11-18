@@ -1,0 +1,27 @@
+# Test      : SAST-NET-02
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : awk 'NR>=310 && NR<=331 {printf "%d: %s\n", NR, $0}' app/screens/server/index.tsx
+# ----
+310: 
+311:     const pingServer = async (pingUrl: string, retryWithHttp = true) => {
+312:         let canceled = false;
+313:         setConnecting(true);
+314:         cancelPing = () => {
+315:             canceled = true;
+316:             setConnecting(false);
+317:             cancelPing = undefined;
+318:         };
+319: 
+320:         const headRequest = await getServerUrlAfterRedirect(pingUrl, !retryWithHttp, preauthSecret.trim() || undefined);
+321:         if (!headRequest.url) {
+322:             cancelPing();
+323:             if (retryWithHttp) {
+324:                 const nurl = pingUrl.replace('https:', 'http:');
+325:                 pingServer(nurl, false);
+326:             } else {
+327:                 setUrlError(getErrorMessage(headRequest.error, intl));
+328:                 setButtonDisabled(true);
+329:                 setConnecting(false);
+330:             }
+331:             return;

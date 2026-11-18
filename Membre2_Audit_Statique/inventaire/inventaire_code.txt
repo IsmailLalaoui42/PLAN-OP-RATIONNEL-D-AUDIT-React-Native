@@ -1,0 +1,32 @@
+Cible : mattermost-mobile v2.46.0, commit 655df13b131da6810f4f073622c925af1b87c3fb, Tue Nov 3 08:37:04 2026 +0200
+versionName 2.46.0 / versionCode 835 (android/app/build.gradle:116-117)
+React Native 0.83.9 ; minSdk 30 / targetSdk 36
+
+== Arborescence principale
+app/actions/                    83 fichiers TS/TSX
+app/client/                     28 fichiers TS/TSX
+app/components/                469 fichiers TS/TSX
+app/constants/                  54 fichiers TS/TSX
+app/context/                     9 fichiers TS/TSX
+app/database/                  142 fichiers TS/TSX
+app/helpers/                     9 fichiers TS/TSX
+app/hooks/                      48 fichiers TS/TSX
+app/i18n/                        2 fichiers TS/TSX
+app/init/                        7 fichiers TS/TSX
+app/keyboard/                   13 fichiers TS/TSX
+app/managers/                   19 fichiers TS/TSX
+app/products/                  302 fichiers TS/TSX
+app/queries/                    26 fichiers TS/TSX
+app/routes/                    133 fichiers TS/TSX
+app/screens/                   572 fichiers TS/TSX
+app/store/                      12 fichiers TS/TSX
+app/utils/                      92 fichiers TS/TSX
+
+== Volume
+JS/TS (app/, hors tests) : 2020 fichiers, 228435 lignes
+Natif Android (android/app) : 37 fichiers Kotlin/Java
+Bibliothèques natives internes : calls-native hardware-keyboard intune rnshare rnutils secure-pdf-viewer 
+Dépendances : 100 runtime, 55 dev
+
+== Fichiers sensibles revus
+android/app/src/main/AndroidManifest.xml, res/xml/network_security_config.xml, res/xml/data_extraction_rules.xml, android/app/build.gradle, google-services.json, assets/base/config.json, app/init/credentials.ts, app/managers/security_manager/index.ts, app/utils/deep_link/index.ts, app/screens/server/index.tsx, app/actions/remote/session.ts

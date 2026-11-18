@@ -1,0 +1,12 @@
+# Test      : SAST-NET-01
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : echo "Mécanisme d'épinglage présent dans le code (lit assets/certs/*.cer) :"; grep -nE "CertificatePinner|assets.list|certs/" libraries/@mattermost/rnshare/android/src/main/java/com/mattermost/rnshare/ShareWorker.kt; echo; echo "Contenu de assets/certs dans le build public :"; ls -A android/app/src/main/assets/certs
+# ----
+Mécanisme d'épinglage présent dans le code (lit assets/certs/*.cer) :
+12:import okhttp3.CertificatePinner
+47:                val pinner = CertificatePinner.Builder()
+75:            val certInputStream = assetsManager.open("certs/$fileName")
+
+Contenu de assets/certs dans le build public :
+.gitignore

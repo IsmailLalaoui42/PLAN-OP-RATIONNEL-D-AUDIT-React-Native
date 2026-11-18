@@ -1,0 +1,35 @@
+# Test      : SAST-DEP-01
+# Horodatage: 2026-11-18T18:30:20Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : npm audit --package-lock-only --json  (synthèse critiques/élevées)
+# ----
+Total : {'info': 0, 'low': 2, 'moderate': 21, 'high': 25, 'critical': 3, 'total': 51}
+
+critical handlebars                               transitive         3.0.0 - 4.7.9                  GHSA-xw65-4hp5-5hc7 GHSA-8r5x-fm3f-whwj
+critical mattermost-hardware-keyboard             transitive         *                              GHSA-322h-w7g8-cg56
+critical shell-quote                              transitive         <=1.8.4                        GHSA-w7jw-789q-3m8p GHSA-395f-4hp3-45gv
+high     @expo/cli                                transitive         0.19.0-canary-20240625-2333e70 via @expo/config,@expo/config-plugins,@expo/metro-config,@expo/prebuild-config,glob,zod
+high     @mattermost/react-native-network-client  dépendance directe *                              via zod
+high     @react-navigation/core                   transitive         <=7.22.0 || 8.0.0-alpha.0 - 8. via query-string
+high     @xmldom/xmldom                           transitive         <=0.8.14 || 0.9.0-beta.1 - 0.9 GHSA-6gmq-8vp8-gcm6 GHSA-6gmq-8vp8-gcm6
+high     body-parser                              transitive         2.0.0 - 2.3.0                  GHSA-v422-hmwv-36x6 GHSA-27r3-jxmh-p828
+high     brace-expansion                          transitive         <=1.1.20 || 2.0.0 - 2.1.6 || 3 GHSA-3jxr-9vmj-r5cp GHSA-3jxr-9vmj-r5cp
+high     browserslist                             transitive         <=4.28.6                       GHSA-c83g-rgw3-j3cx GHSA-73wf-gq98-2v4g
+high     compression                              transitive         <1.8.2                         GHSA-vc2v-76pw-4v95
+high     decode-uri-component                     transitive         <=0.5.0                        GHSA-vcc3-ghjq-m6fr GHSA-qr28-fpjm-wq7f
+high     expo-router                              dépendance directe 1.2.2 - 3.1.2 || 5.2.0-canary- via query-string
+high     fast-uri                                 transitive         3.0.0 - 3.1.8                  GHSA-v2hh-gcrm-f6hx GHSA-7p8r-x3mc-p8w7
+high     form-data                                transitive         4.0.0 - 4.0.5                  GHSA-hmw2-7cc7-3qxx
+high     image-size                               transitive         0.6.3 - 2.0.2                  GHSA-5p2g-fcmc-qvqq GHSA-w3rx-r6r6-pgpr
+high     joi                                      transitive         <=17.13.8                      GHSA-q7cg-457f-vx79 GHSA-6w3j-5fw6-r9vr
+high     js-yaml                                  transitive         <=3.15.1 || 4.0.0 - 4.3.1      GHSA-h67p-54hq-rp68 GHSA-h67p-54hq-rp68
+high     launch-editor                            transitive         <=2.14.1                       GHSA-v6wh-96g9-6wx3 GHSA-698v-4r3x-3vcv
+high     nanoid                                   transitive         <=3.3.17                       GHSA-28wg-ghj8-5hjv GHSA-2v37-7h3g-55p8
+high     node-forge                               transitive         <=1.4.2                        GHSA-86w9-cpqp-85rv GHSA-4642-5mcj-2rqw
+high     postcss                                  transitive         <=8.5.22                       GHSA-fxqj-rqcc-2cmp GHSA-r28c-9q8g-f849
+high     query-string                             transitive         5.0.0 - 9.4.1                  via decode-uri-component
+high     source-map-js                            transitive         1.0.0 - 1.2.1                  GHSA-68fv-2mgg-jv7q
+high     tmp                                      transitive         <0.2.6                         GHSA-ph9p-34f9-6g65
+high     undici                                   transitive         <=6.29.0                       GHSA-p88m-4jfj-68fv GHSA-g8m3-5g58-fq7m
+high     ws                                       transitive         6.0.0 - 6.2.3 || 7.0.0 - 7.5.1 GHSA-96hv-2xvq-fx4p GHSA-96hv-2xvq-fx4p
+high     zod                                      transitive         <4.6.6                         GHSA-mrhx-c7xc-m3w5

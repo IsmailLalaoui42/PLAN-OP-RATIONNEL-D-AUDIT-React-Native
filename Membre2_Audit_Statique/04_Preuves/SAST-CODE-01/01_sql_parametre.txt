@@ -1,0 +1,17 @@
+# Test      : SAST-CODE-01
+# Horodatage: 2026-11-18T18:28:59Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : sed -n 185,190p android/app/src/main/java/com/mattermost/helpers/database_extension/General.kt; echo "-- appelants (noms de table/colonne littéraux) :"; grep -rhoE "(queryIds|queryByColumn|countByColumn|findByColumns)\(db, *[^,]+, *[^,)]+" android/app/src/main/java | sort -u
+# ----
+fun queryByColumn(db: WMDatabase, tableName: String, columnName: String, values: Array<Any?>): List<String> {
+    val list: MutableList<String> = ArrayList()
+    val args = TextUtils.join(",", Arrays.stream(values).map { "?" }.toArray())
+    try {
+        db.rawQuery("SELECT DISTINCT $columnName FROM $tableName WHERE $columnName IN ($args)", values).use { cursor ->
+            if (cursor.count > 0) {
+-- appelants (noms de table/colonne littéraux) :
+countByColumn(db, "CategoryChannel", "category_id"
+findByColumns(db, "Category", arrayOf("type"
+queryByColumn(db, "User", "username"
+queryIds(db, "User", threadParticipantUserIds.toTypedArray(
+queryIds(db, "User", userIds.toTypedArray(

@@ -1,0 +1,7 @@
+# Test      : SAST-NET-01
+# Horodatage: 2026-11-18T18:28:58Z (UTC)
+# Source    : mattermost-mobile v2.46.0 @ 655df13
+# Commande  : grep -nE "networkSecurityConfig|usesCleartextTraffic" android/app/src/main/AndroidManifest.xml
+# ----
+55:      android:networkSecurityConfig="@xml/network_security_config"
+57:      android:usesCleartextTraffic="true"
